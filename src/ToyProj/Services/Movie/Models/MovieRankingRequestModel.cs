@@ -1,4 +1,4 @@
-﻿namespace ToyProj.Services.Movie.Model
+﻿namespace ToyProj.Services.Movie.Models
 {
     public class MovieRankingRequestModel
     {

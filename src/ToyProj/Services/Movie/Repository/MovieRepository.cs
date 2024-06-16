@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using ToyProj.Abstractions.ResultData;
 using ToyProj.Data;
-using ToyProj.Services.Movie.Model;
+using ToyProj.Services.Movie.Models;
 
 namespace ToyProj.Services.Movie.Repository
 {
