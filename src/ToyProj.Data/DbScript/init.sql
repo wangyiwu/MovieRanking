@@ -180,8 +180,6 @@ BEGIN
     );
 END
 
-
-
 -- Sample data for Country table
 INSERT INTO Country (CountryIsoCode, CountryName) VALUES
 ('USA', 'United States'),
