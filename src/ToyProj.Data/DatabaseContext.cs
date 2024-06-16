@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ToyProj.Abstractions.ResultData;
 using ToyProj.Data.Data;
 
 namespace ToyProj.Data
@@ -30,8 +31,14 @@ namespace ToyProj.Data
         public DbSet<MovieCast> MovieCasts { get; set; }
         public DbSet<MovieCrew> MovieCrews { get; set; }
 
+        public DbSet<MovieRankingData> MovieRankingData { get; set; }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            base.OnModelCreating(modelBuilder);
+
+            modelBuilder.Entity<MovieRankingData>().HasNoKey().ToView(null);
+
             modelBuilder.Entity<ProductionCountry>()
                 .HasKey(pc => new { pc.MovieId, pc.CountryId });
 

@@ -1,10 +1,13 @@
 using Microsoft.EntityFrameworkCore;
 using ToyProj.Data;
+using ToyProj.Services.Movie.Repository;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+
+builder.Services.AddScoped<IMovieRepository, MovieRepository>();
 
 builder.Services.AddDbContext<DatabaseContext>(options =>
   options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
