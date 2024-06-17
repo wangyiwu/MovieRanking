@@ -29,7 +29,7 @@
                         <div class="menu-text">Dashboard</div>
                     </div>
                     <div class="menu-item">
-                        <img loading="lazy" src="https://cdn.builder.io/api/v1/image/assets/TEMP/c5853584d1296cbaac3f7f4645be4527c075aa3daecea54eb7fb41096443d60e?apiKey=45f58322aded4623984a676e805b906d&" alt="Your Movies icon" class="menu-icon-alt" />
+                        <img loading="lazy" src="/img/ranking.png" alt="Your Movies icon" class="menu-icon-alt" />
                         <div class="menu-text">Ranking</div>
                     </div>
                     <div class="menu-item">
@@ -46,10 +46,12 @@
                 <img src="https://cdn.builder.io/api/v1/image/assets/TEMP/a6b294783667ba3412bad1a7a5cb521c053e0af324839c99b895cc7629bb6918?apiKey=45f58322aded4623984a676e805b906d&" class="image-icon" alt="Description of the image" />
             </figure>
 
+            <h2 class="page-title">Movie Ranking </h2>
+
             <nav class="menu-container">
                 <div class="nav-options">
-                    <span class="nav-item-top5">Top 5</span>
-                    <span class="nav-item-all">
+                    <span id="top-5-btn" class="nav-item-top5">Top 5</span>
+                    <span id="all-btn" class="nav-item-all">
                         <a asp-action="Index" asp-route-Count="100">
                             All
                         </a>
@@ -113,8 +115,27 @@
 
 </body>
 
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+
 <script>
 
+
+    $(document).ready(function () {
+        $('#top-5-btn').click(function () {
+            $('.nav-item-top5').each(function () {
+                var color = $(this).css('background-color');
+                console.log(color);
+            });
+
+        });
+
+        $('#all-btn').click(function () {
+            $('.nav-item-all').each(function () {
+                $(this).css('background-color', '#ff6b00');
+            });
+
+        });
+    });
 
 
 </script>

@@ -458,7 +458,7 @@ table {
     color: #fff;
     font-weight: 400;
     justify-content: space-between;
-    padding:20px 10px 20px 10px;
+    padding:20px 10px 20px 10vh;
 }
 
 @media (max-width: 991px) {
@@ -599,3 +599,9 @@ a:hover {
 a:active {
     text-decoration: none;
 }
+
+.page-title {
+    color: #fff;
+    flex-grow: 1;
+    font: 500 32px 'SF UI Display', sans-serif;
+   padding-left:12vh;
