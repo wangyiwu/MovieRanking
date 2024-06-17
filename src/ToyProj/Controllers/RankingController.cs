@@ -26,11 +26,11 @@ namespace ToyProj.Controllers
 
             var requestModel = new MovieRankingRequestModel()
             {
-                Count = model.Count?? 15,
+                Count = model.Top5 == true ? 5 : 10,
                 Skip = model.Skip,
                 GenreName = model.GenreName,
                 OrderBy = model.OrderBy,
-                Year    = model.Year,
+                Year = model.Year,
             };
 
             var movieRankingData = await movieRepository.GetMovieRankings(requestModel);
@@ -38,6 +38,11 @@ namespace ToyProj.Controllers
             model.Items = movieRankingData.ToList();
 
             return View(model);
+        }
+
+        public async Task<IActionResult> MovieDetail()
+        {
+            return View();
         }
 
     }

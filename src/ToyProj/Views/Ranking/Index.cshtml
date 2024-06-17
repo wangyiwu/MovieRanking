@@ -3,17 +3,22 @@
     Layout = null;
 }
 
+@{
+    string GetButtonColorBool(bool? value) => value.HasValue && value.Value ? "#ff6b00" : "2c2c2c";
+
+    string GetButtonColorInt(int? value) => value.HasValue ? "#ff6b00" : "2c2c2c";
+
+    string GetButtonColorString(string value) => !string.IsNullOrEmpty(value) ? "#ff6b00" : "2c2c2c";
+}
+a
 <!DOCTYPE html>
 <html>
 <head>
     <title>Movie Ranking</title>
-    <!-- needed for adaptive design -->
+
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <!--
-    ReDoc doesn't change outer page styles
-    -->
 
     <link href="~/styles/style.css" rel="stylesheet" />
 
@@ -50,16 +55,12 @@
 
             <nav class="menu-container">
                 <div class="nav-options">
-                    <span id="top-5-btn" class="nav-item-top5">Top 5</span>
-                    <span id="all-btn" class="nav-item-all">
-                        <a asp-action="Index" asp-route-Count="100">
+                    <span style="background-color:@GetButtonColorBool(Model.Top5)" id="top-5-btn" class="nav-item-top5 nav-item-unselected">Top 5</span>
+                    <span style="background-color:@GetButtonColorBool(Model.All)" id="all-btn" class="nav-item-all">
                             All
-                        </a>
                     </span>
-                    <span class="nav-item-new">
-                        <a asp-action="Index" asp-route-OrderBy="ReleaseDate" asp-route-Count="100">
+                    <span style="background-color:@GetButtonColorBool(Model.New)" class="nav-item-new">
                             New
-                        </a>
                     </span>
                     <div class="nav-item-category-wrapper">
                         <span class="category-label">Category</span>
@@ -106,7 +107,6 @@
                 }
 
             </div>
-            
 
         </div>
 
@@ -117,24 +117,19 @@
 
 <script src="~/lib/jquery/dist/jquery.min.js"></script>
 
+
+
+
 <script>
 
 
     $(document).ready(function () {
+
         $('#top-5-btn').click(function () {
-            $('.nav-item-top5').each(function () {
-                var color = $(this).css('background-color');
-                console.log(color);
-            });
-
+            var bgColor = $(this).css('background-color');
+            alert( " button has background color: " + bgColor);
         });
 
-        $('#all-btn').click(function () {
-            $('.nav-item-all').each(function () {
-                $(this).css('background-color', '#ff6b00');
-            });
-
-        });
     });
 
 

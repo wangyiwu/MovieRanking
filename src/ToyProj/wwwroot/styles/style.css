@@ -449,9 +449,6 @@ table {
 
 
 
-
-
-
 .menu-container {
     display: flex;
     gap: 20px;
@@ -484,10 +481,17 @@ table {
     font-family: SF UI Display, sans-serif;
     justify-content: center;
     border-radius: 30px;
-    background-color: #ff6b00;
     font-weight: 500;
     padding: 12px 37px;
 }
+
+.nav-item-selected {
+    background-color: #ff6b00;
+}
+.nav-item-unselected {
+    background-color: #2c2c2c;
+}
+
 
 @media (max-width: 991px) {
     .nav-item-top5 {
