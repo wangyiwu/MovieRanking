@@ -22,7 +22,7 @@
     <div class="pageContainer">
         <aside class="sidebar">
             <section class="logo-section">
-                <div class="logo">FB</div>
+                <div class="logo">ToyPj</div>
                 <nav>
                     <div class="menu-item">
                         <img loading="lazy" src="https://cdn.builder.io/api/v1/image/assets/TEMP/a28bd1df9a1e89873dd6529107d0f50a83e39ee38bdc87ef60a2fa0f0eabe998?apiKey=45f58322aded4623984a676e805b906d&" alt="Dashboard icon" class="menu-icon" />
@@ -30,28 +30,15 @@
                     </div>
                     <div class="menu-item">
                         <img loading="lazy" src="https://cdn.builder.io/api/v1/image/assets/TEMP/c5853584d1296cbaac3f7f4645be4527c075aa3daecea54eb7fb41096443d60e?apiKey=45f58322aded4623984a676e805b906d&" alt="Your Movies icon" class="menu-icon-alt" />
+                        <div class="menu-text">Ranking</div>
+                    </div>
+                    <div class="menu-item">
+                        <img loading="lazy" src="https://cdn.builder.io/api/v1/image/assets/TEMP/c5853584d1296cbaac3f7f4645be4527c075aa3daecea54eb7fb41096443d60e?apiKey=45f58322aded4623984a676e805b906d&" alt="Your Movies icon" class="menu-icon-alt" />
                         <div class="menu-text">Your Movies</div>
                     </div>
                 </nav>
             </section>
-            <section class="highlighted-section">
-                <div class="highlighted-indicator"></div>
-                <div class="highlighted-text">Rankings</div>
-            </section>
-            <section class="submenu">
-                <div class="submenu-item">
-                    <img loading="lazy" src="https://cdn.builder.io/api/v1/image/assets/TEMP/32bad9e0f8a813cee570ab217cf2a0e4331d980a779a2b4295c0e90735860826?apiKey=45f58322aded4623984a676e805b906d&" alt="Community icon" class="submenu-icon" />
-                    <div class="submenu-text">Community</div>
-                </div>
-                <div class="submenu-item">
-                    <img loading="lazy" src="https://cdn.builder.io/api/v1/image/assets/TEMP/1cf9faa14bf83ab1229ef22f2ab60d45a84461e97a99f8f3af5bf9614c15de88?apiKey=45f58322aded4623984a676e805b906d&" alt="Notifications icon" class="submenu-icon-alt" />
-                    <div class="submenu-text">Notifications</div>
-                </div>
-                <div class="submenu-item">
-                    <img loading="lazy" src="https://cdn.builder.io/api/v1/image/assets/TEMP/edd84e7724a69974f3936841750f4c87b187c4d8d12aa3a2d174fcba650dd4f7?apiKey=45f58322aded4623984a676e805b906d&" alt="Settings icon" class="submenu-icon-last" />
-                    <div class="submenu-text">Settings</div>
-                </div>
-            </section>
+            
         </aside>
 
         <div class="content">
@@ -82,40 +69,42 @@
                     <img loading="lazy" src="https://cdn.builder.io/api/v1/image/assets/TEMP/1e035a6a46a6e8fc0c0c4295f246891375be7492e7864a700aff326f3d62dcad?apiKey=45f58322aded4623984a676e805b906d&" class="icon" alt="Yearly icon" />
                 </div>
             </nav>
-            @for (var index = 1; index <= Model.Items.Count; index++)
-            {
-                <div class="flex-container">
-                    <div class="highlighted-text">@index</div>
-                    <div class="content-wrapper">
-                        <div class="flex-row">
-                            <div class="column">
-                                <img loading="lazy" src="https://cdn.builder.io/api/v1/image/assets/TEMP/185e4048da2a4f1fbff5dea7c7cb4563aad78ffdc7d365bbd617cea3dbea1b88?apiKey=45f58322aded4623984a676e805b906d&" alt="Movie poster" class="image" />
-                            </div>
-                            <div class="details-column">
-                                <div class="details-wrapper">
-                                    <div class="title-rating">
-                                        <h2 class="movie-title">@Model.Items[index - 1].Title</h2>
-                                        <span class="release-year">(@Model.Items[index - 1].ReleaseYear)</span>
-                                        <div class="rating-container">
-                                            <div class="rating-positive"></div>
-                                            <div class="rating-neutral"></div>
-                                        </div>
-                                    </div>
-                                    <p class="director">@Model.Items[index - 1].MainCastName</p>
-                                    <p class="cast">@Model.Items[index-1].CastList</p>
+            <div class="movie-list">
+                @for (var index = 1; index <= Model.Items.Count; index++)
+                {
+                    <div class="flex-container">
+                        <div class="highlighted-text">@index</div>
+                        <div class="content-wrapper">
+                            <div class="flex-row">
+                                <div class="column">
+                                    <img loading="lazy" src="https://cdn.builder.io/api/v1/image/assets/TEMP/185e4048da2a4f1fbff5dea7c7cb4563aad78ffdc7d365bbd617cea3dbea1b88?apiKey=45f58322aded4623984a676e805b906d&" alt="Movie poster" class="image" />
                                 </div>
-                            </div>
-                            <div class="rating-column">
-                                <div class="rating-wrapper">
-                                    <span class="rating-score">@Model.Items[index-1].VotesAvg</span>
-                                    <img loading="lazy" src="https://cdn.builder.io/api/v1/image/assets/TEMP/2a92e5c785c19e07a516c1e4e04b5d16c32fe055756ff3c2f594f14932016227?apiKey=45f58322aded4623984a676e805b906d&" alt="Rating icon" class="small-image" />
+                                <div class="details-column">
+                                    <div class="details-wrapper">
+                                        <div class="title-rating">
+                                            <h2 class="movie-title">@Model.Items[index - 1].Title</h2>
+                                            <span class="release-year">(@Model.Items[index - 1].ReleaseYear)</span>
+                                            <div class="rating-container">
+                                                <span class="release-year">@Model.Items[index - 1].CountryCode</span>
+                                            </div>
+                                        </div>
+                                        <p class="director">@Model.Items[index - 1].MainCastName</p>
+                                        <p class="cast">@Model.Items[index - 1].CastList</p>
+                                    </div>
+                                </div>
+                                <div class="rating-column">
+                                    <div class="rating-wrapper">
+                                        <span class="rating-score">@Model.Items[index - 1].VotesAvg</span>
+                                        <img loading="lazy" src="https://cdn.builder.io/api/v1/image/assets/TEMP/2a92e5c785c19e07a516c1e4e04b5d16c32fe055756ff3c2f594f14932016227?apiKey=45f58322aded4623984a676e805b906d&" alt="Rating icon" class="small-image" />
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
-            }
+                }
 
+            </div>
+            
 
         </div>
 
@@ -123,4 +112,11 @@
 
 
 </body>
+
+<script>
+
+
+
+</script>
+
 </html>

@@ -11,7 +11,6 @@ namespace ToyProj.Controllers
         private IMovieRepository movieRepository;
         private IGenreRepository genreRepository;
 
-
         public RankingController(IMovieRepository movieRepository,
             IGenreRepository genreRepository)
         {

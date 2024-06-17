@@ -11,7 +11,12 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ToyProj.Data", "src\ToyProj
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ToyProj.Abstractions", "src\ToyProj.Abstractions\ToyProj.Abstractions.csproj", "{DBC6C5C1-C4AB-4ADA-8D98-6CE07D29611E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ToyProj.Test", "src\ToyProj.Test\ToyProj.Test.csproj", "{EC13A264-CBF5-470C-8DAE-C2E88FB9446C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ToyProj.Test", "src\ToyProj.Test\ToyProj.Test.csproj", "{EC13A264-CBF5-470C-8DAE-C2E88FB9446C}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{1BB79103-C6C6-4CCE-80E1-A437E1C54013}"
+	ProjectSection(SolutionItems) = preProject
+		readme.md = readme.md
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
