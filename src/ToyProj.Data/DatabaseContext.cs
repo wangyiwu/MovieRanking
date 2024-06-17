@@ -13,23 +13,23 @@ namespace ToyProj.Data
     {
         public DatabaseContext(DbContextOptions<DatabaseContext> options) : base(options) { }
 
-        public DbSet<Country> Countries { get; set; }
-        public DbSet<ProductionCompany> ProductionCompanies { get; set; }
+        public DbSet<Country> Country { get; set; }
+        public DbSet<ProductionCompany> ProductionCompany { get; set; }
         public DbSet<Language> Languages { get; set; }
-        public DbSet<LanguageRoles> LanguageRoles { get; set; }
+        public DbSet<LanguageRoles> LanguageRole { get; set; }
         public DbSet<Genre> Genre { get; set; }
         public DbSet<Keyword> Keywords { get; set; }
-        public DbSet<Person> Persons { get; set; }
-        public DbSet<Gender> Genders { get; set; }
-        public DbSet<Department> Departments { get; set; }
+        public DbSet<Person> Person { get; set; }
+        public DbSet<Gender> Gender { get; set; }
+        public DbSet<Department> Department { get; set; }
         public DbSet<Movie> Movie { get; set; }
-        public DbSet<ProductionCountry> ProductionCountries { get; set; }
+        public DbSet<ProductionCountry> ProductionCountry { get; set; }
         public DbSet<MovieCompany> MovieCompany { get; set; }
         public DbSet<MovieLanguages> MovieLanguages { get; set; }
-        public DbSet<MovieGenre> MovieGenres { get; set; }
+        public DbSet<MovieGenre> MovieGenre { get; set; }
         public DbSet<MovieKeywords> MovieKeywords { get; set; }
-        public DbSet<MovieCast> MovieCasts { get; set; }
-        public DbSet<MovieCrew> MovieCrews { get; set; }
+        public DbSet<MovieCast> MovieCast { get; set; }
+        public DbSet<MovieCrew> MovieCrew { get; set; }
 
         public DbSet<MovieRankingData> MovieRankingData { get; set; }
 
