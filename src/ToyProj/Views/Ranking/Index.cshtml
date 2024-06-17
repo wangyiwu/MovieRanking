@@ -101,13 +101,13 @@
                                             <div class="rating-neutral"></div>
                                         </div>
                                     </div>
-                                    <p class="director">@Model.Items[index - 1].MainCast</p>
-                                    <p class="cast">Emma Stone, Mark Ruffalo, Willem Dafoe, Ramy Youssef, Christopher Abbott, Jerrod Carmichael, Kathryn Hunter, Margaret Qualley ...</p>
+                                    <p class="director">@Model.Items[index - 1].MainCastName</p>
+                                    <p class="cast">@Model.Items[index-1].CastList</p>
                                 </div>
                             </div>
                             <div class="rating-column">
                                 <div class="rating-wrapper">
-                                    <span class="rating-score">7,8/10</span>
+                                    <span class="rating-score">@Model.Items[index-1].VotesAvg</span>
                                     <img loading="lazy" src="https://cdn.builder.io/api/v1/image/assets/TEMP/2a92e5c785c19e07a516c1e4e04b5d16c32fe055756ff3c2f594f14932016227?apiKey=45f58322aded4623984a676e805b906d&" alt="Rating icon" class="small-image" />
                                 </div>
                             </div>

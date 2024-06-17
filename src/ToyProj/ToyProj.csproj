@@ -12,4 +12,8 @@
     <ProjectReference Include="..\ToyProj.Data\ToyProj.Data.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Services\Genre\Models\" />
+  </ItemGroup>
+
 </Project>
