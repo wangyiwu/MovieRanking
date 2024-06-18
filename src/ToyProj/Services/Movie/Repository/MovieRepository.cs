@@ -32,7 +32,7 @@ namespace ToyProj.Services.Movie.Repository
 
             int count = (query.Count.HasValue && query.Count > 0)  ? query.Count.Value : 100;
 
-			var querySql = $@"SELECT top ({count}) m.Title as Title, c.CountryIsoCode as CountryCode, Year(m.ReleaseDate) as ReleaseYear, m.Thumbnail, MoviePersonCast.S1PersonName as MainCastName, CastList.CastList, MoviePersonCast.S1CastOrder as MainCastOrder, m.VotesAvg, m.VotesCount, g.GenreName, 
+			var querySql = $@"SELECT top ({count}) m.MovieId, m.Title as Title, c.CountryIsoCode as CountryCode, Year(m.ReleaseDate) as ReleaseYear, m.Thumbnail, MoviePersonCast.S1PersonName as MainCastName, CastList.CastList, MoviePersonCast.S1CastOrder as MainCastOrder, m.VotesAvg, m.VotesCount, g.GenreName, 
                                 m.ReleaseDate as ReleaseDate
                                   FROM Movie m 
                                   join ProductionCountry pc on m.MovieId = pc.MovieId

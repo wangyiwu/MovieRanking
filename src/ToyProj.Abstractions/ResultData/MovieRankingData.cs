@@ -8,6 +8,7 @@ namespace ToyProj.Abstractions.ResultData
 {
     public class MovieRankingData
     {
+        public int MovieId { get; set; }
         public string Title { get; set; }
         public string CountryCode { get; set; }
         public int ReleaseYear { get; set; }

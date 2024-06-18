@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using ToyProj.Abstractions.ResultData;
 using ToyProj.Models;
 using ToyProj.Services.Genre.Repository;
 using ToyProj.Services.Movie.Models;
@@ -26,10 +27,10 @@ namespace ToyProj.Controllers
 
             var requestModel = new MovieRankingRequestModel()
             {
-                Count = model.Top5 == true ? 5 : 10,
+                Count = model.Top5 == true ? 5 : 100,
                 Skip = model.Skip,
                 GenreName = model.GenreName,
-                OrderBy = model.OrderBy,
+                OrderBy = model.OrderBy ,   
                 Year = model.Year,
             };
 
@@ -40,9 +41,21 @@ namespace ToyProj.Controllers
             return View(model);
         }
 
-        public async Task<IActionResult> MovieDetail()
-        {
-            return View();
+        public async Task<IActionResult> MovieDetail(int movieId)
+		{
+            var request = new MovieRankingRequestModel()
+            {
+
+            };
+
+			var movie =( await movieRepository.GetMovieRankings(request)).Find(x => x.MovieId == movieId);
+
+            var result = new MovieDetailViewModel()
+            {
+                Title = movie.Title
+            };
+
+            return View(result);
         }
 
     }

@@ -10,7 +10,6 @@
 
 	string GetButtonColorString(string value) => !string.IsNullOrEmpty(value) ? "#ff6b00" : "2c2c2c";
 
-
 }
 
 <!DOCTYPE html>
@@ -66,7 +65,7 @@
 					<span style="background-color:@GetButtonColorBool(Model.New)" id="new-btn" class="nav-item-new">
 						New <input asp-for="New" name="New" type="checkbox" />
 					</span>
-					<select asp-for="GenreName" id="category-btn" class="dropdown">
+					<select style="background-color:@GetButtonColorString(Model.GenreName)" asp-for="GenreName" id="category-btn" class="dropdown">
 						<span class="category-label">Category</span>
 						<img loading="lazy" src="https://cdn.builder.io/api/v1/image/assets/TEMP/a7cdb15f59150ef871bfe4d690ca66e4a50adc1d86ad26fd60ebde9b6a4ad7e8?apiKey=45f58322aded4623984a676e805b906d&" class="icon" alt="Category icon" />
 						<div class="dropdown-content">
@@ -78,7 +77,7 @@
 				</select>
 		</div>
 
-		<select asp-for="Year" id="year-btn" class="dropdown yearly-indicator">
+		<select style="background-color:@GetButtonColorInt(Model.Year)" asp-for="Year" id="year-btn" class="dropdown yearly-indicator">
 			<span class="year-label">2023</span>
 			<img loading="lazy" src="https://cdn.builder.io/api/v1/image/assets/TEMP/1e035a6a46a6e8fc0c0c4295f246891375be7492e7864a700aff326f3d62dcad?apiKey=45f58322aded4623984a676e805b906d&" class="icon" alt="Yearly icon" />
 
@@ -87,8 +86,8 @@
 						{
 								<option>2013</option>
 						}
-	</div>
-	</select>
+			</div>
+		</select>
 	</form>
 	<div class="movie-list">
 				@for (var index = 1; index <= Model.Items.Count; index++)
@@ -103,7 +102,11 @@
 						<div class="details-column">
 							<div class="details-wrapper">
 								<div class="title-rating">
-									<h2 class="movie-title">@Model.Items[index - 1].Title</h2>
+									<h2 class="movie-title">
+										<a asp-action="MovieDetail" asp-route-movieId="@Model.Items[index-1].MovieId">
+													@Model.Items[index - 1].Title
+										</a>
+									</h2>
 									<span class="release-year">(@Model.Items[index - 1].ReleaseYear)</span>
 									<div class="rating-container">
 										<span class="release-year">@Model.Items[index - 1].CountryCode</span>
@@ -126,14 +129,11 @@
 
 	</div>
 
-	</div>
 
 	</div>
 
 
 </body>
-
-
 
 
 <script>
@@ -200,7 +200,7 @@
 
 		$('#category-btn').change(function(e){
 			var val = $(e.target).val();
-			
+			ChangeMenuItemStatus('category-btn');
 			$('#submit-filter').submit();
 		});
 
@@ -242,8 +242,6 @@
 		handleMenuChange('new-btn');
 		handleMenuChange('all-btn');
 		handleMenuChange('top5-btn');
-		//handleMenuChange('year-btn');
-		//handleMenuChange('category-btn');
 		handleSelectionChange();
 	})
 </script>
