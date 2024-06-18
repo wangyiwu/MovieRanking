@@ -9,8 +9,10 @@
     string GetButtonColorInt(int? value) => value.HasValue ? "#ff6b00" : "2c2c2c";
 
     string GetButtonColorString(string value) => !string.IsNullOrEmpty(value) ? "#ff6b00" : "2c2c2c";
+
+    
 }
-a
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -19,8 +21,8 @@ a
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-
     <link href="~/styles/style.css" rel="stylesheet" />
+    <script src="~/lib/jquery/dist/jquery.js"></script>
 
 </head>
 <body>
@@ -54,12 +56,12 @@ a
             <h2 class="page-title">Movie Ranking </h2>
 
             <nav class="menu-container">
-                <div class="nav-options">
-                    <span style="background-color:@GetButtonColorBool(Model.Top5)" id="top-5-btn" class="nav-item-top5 nav-item-unselected">Top 5</span>
+                <div id="nav-options" class="nav-options">
+                    <span style="background-color:@GetButtonColorBool(Model.Top5)" id="top5-btn" class="nav-item-top5 nav-item-unselected">Top 5</span>
                     <span style="background-color:@GetButtonColorBool(Model.All)" id="all-btn" class="nav-item-all">
                             All
                     </span>
-                    <span style="background-color:@GetButtonColorBool(Model.New)" class="nav-item-new">
+                    <span style="background-color:@GetButtonColorBool(Model.New)" id="new-btn" class="nav-item-new">
                             New
                     </span>
                     <div class="nav-item-category-wrapper">
@@ -115,24 +117,118 @@ a
 
 </body>
 
-<script src="~/lib/jquery/dist/jquery.min.js"></script>
-
 
 
 
 <script>
 
+    const selectedColor = "#ff6b00";
+    const unselectedColor = "#2c2c2c";
 
-    $(document).ready(function () {
+    function rgbToHex(r, g, b) {
+        var hexR = ("0" + r.toString(16)).slice(-2);
+        var hexG = ("0" + g.toString(16)).slice(-2);
+        var hexB = ("0" + b.toString(16)).slice(-2);
+        return "#" + hexR + hexG + hexB;
+    }
 
-        $('#top-5-btn').click(function () {
-            var bgColor = $(this).css('background-color');
-            alert( " button has background color: " + bgColor);
+    function setBackgroundColor(elementId, value) {
+        $("#" + elementId).css("background-color", value);
+    }
+    
+
+    function getHexColor(element) {
+        var rgb = $(element).css('background-color');
+        var result = rgb.match(/^rgb\((\d+),\s*(\d+),\s*(\d+)\)$/);
+        if (result) {
+            var r = parseInt(result[1]);
+            var g = parseInt(result[2]);
+            var b = parseInt(result[3]);
+            return rgbToHex(r, g, b);
+        } else {
+            throw new Error("Could not parse RGB color");
+        }
+    }
+
+    function generateQueryParams(params) {
+        return Object.keys(params)
+            .map(key => encodeURIComponent(key) + '=' + encodeURIComponent(params[key]))
+            .join('&');
+    }
+
+    function ChangeMenuItemStatus(elementId) {
+        var menuValue = getHexColor("#" + elementId);
+        if (menuValue == selectedColor) {
+            setBackgroundColor(elementId, unselectedColor);
+            return false;
+        }
+
+        if (menuValue == unselectedColor) {
+            setBackgroundColor(elementId, selectedColor);
+            return true;
+        }
+    }
+
+    function GetMenuItemStatus(elementId) {
+        var menuValue = getHexColor("#" + elementId);
+        if (menuValue == selectedColor) {
+            return true;
+        }
+
+        if (menuValue == unselectedColor) {
+            return false;
+        }
+    }
+
+    function updateModel(params) {
+        // Make AJAX call to update the server-side model
+        $.ajax({
+            url: '@Url.Action("Index", "Ranking")', // Adjust URL as per your controller and action
+            type: 'GET',
+            data: params,
+            success: function (data) {
+                $('html').empty();
+                $('html').html(data);
+            },
+            error: function (xhr, status, error) {
+                console.error('Error occurred:', error);
+            }
         });
+    }
 
-    });
+    function handleMenuChange(elementIdentifier) {
+        $('#' + elementIdentifier).on("click", function () {
 
+            switch (elementIdentifier){
+                case 'all-btn': {
+                    ChangeMenuItemStatus('all-btn');
+                    break;
+                }
+                case 'new-btn': {
+                    ChangeMenuItemStatus('new-btn');
+                    break;
+                }
+                case 'top5-btn': {
+                    ChangeMenuItemStatus('top5-btn');
+                    break;
+                }
+            }
+            const params = {
+                top5: GetMenuItemStatus('top5-btn'),
+                all: GetMenuItemStatus('all-btn'),
+                new: GetMenuItemStatus('new-btn')
+            };
 
+            const queryString = generateQueryParams(params);
+        });
+    }
+
+  
+    $(document).ready(function () {
+        handleMenuChange('new-btn');
+        handleMenuChange('all-btn');
+        handleMenuChange('top5-btn');
+    })
 </script>
 
 </html>
