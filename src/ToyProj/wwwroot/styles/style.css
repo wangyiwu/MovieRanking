@@ -606,6 +606,40 @@ a:active {
 
 .page-title {
     color: #fff;
-    flex-grow: 1;
     font: 500 32px 'SF UI Display', sans-serif;
-   padding-left:12vh;
+    padding-left: 12vh;
+}
+
+
+.dropdown {
+    position: relative;
+    display: inline-block;
+    font-family: SF UI Display, sans-serif;
+    justify-content: center;
+    border-radius: 30px;
+    font-weight: 500;
+    padding: 12px 37px;
+    background-color: #2c2c2c;
+    color:white;
+    
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #2c2c2c;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    padding: 12px 16px;
+    z-index: 1;
+    border-radius:10px;
+}
+
+.dropdown:hover .dropdown-content {
+    display: block;
+}
+
+.dropdown-content-item{
+    padding:10px;
+}
+

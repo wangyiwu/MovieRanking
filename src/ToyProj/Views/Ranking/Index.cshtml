@@ -1,118 +1,134 @@
 ﻿@model MovieRankingViewModel
 @{
-    Layout = null;
+	Layout = null;
 }
 
 @{
-    string GetButtonColorBool(bool? value) => value.HasValue && value.Value ? "#ff6b00" : "2c2c2c";
+	string GetButtonColorBool(bool? value) => value.HasValue && value.Value ? "#ff6b00" : "2c2c2c";
 
-    string GetButtonColorInt(int? value) => value.HasValue ? "#ff6b00" : "2c2c2c";
+	string GetButtonColorInt(int? value) => value.HasValue ? "#ff6b00" : "2c2c2c";
 
-    string GetButtonColorString(string value) => !string.IsNullOrEmpty(value) ? "#ff6b00" : "2c2c2c";
+	string GetButtonColorString(string value) => !string.IsNullOrEmpty(value) ? "#ff6b00" : "2c2c2c";
 
-    
+
 }
 
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Movie Ranking</title>
+	<title>Movie Ranking</title>
 
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <link href="~/styles/style.css" rel="stylesheet" />
-    <script src="~/lib/jquery/dist/jquery.js"></script>
+	<link href="~/styles/style.css" rel="stylesheet" />
+	<script src="~/lib/jquery/dist/jquery.js"></script>
 
 </head>
 <body>
-    <div class="pageContainer">
-        <aside class="sidebar">
-            <section class="logo-section">
-                <div class="logo">ToyPj</div>
-                <nav>
-                    <div class="menu-item">
-                        <img loading="lazy" src="https://cdn.builder.io/api/v1/image/assets/TEMP/a28bd1df9a1e89873dd6529107d0f50a83e39ee38bdc87ef60a2fa0f0eabe998?apiKey=45f58322aded4623984a676e805b906d&" alt="Dashboard icon" class="menu-icon" />
-                        <div class="menu-text">Dashboard</div>
-                    </div>
-                    <div class="menu-item">
-                        <img loading="lazy" src="/img/ranking.png" alt="Your Movies icon" class="menu-icon-alt" />
-                        <div class="menu-text">Ranking</div>
-                    </div>
-                    <div class="menu-item">
-                        <img loading="lazy" src="https://cdn.builder.io/api/v1/image/assets/TEMP/c5853584d1296cbaac3f7f4645be4527c075aa3daecea54eb7fb41096443d60e?apiKey=45f58322aded4623984a676e805b906d&" alt="Your Movies icon" class="menu-icon-alt" />
-                        <div class="menu-text">Your Movies</div>
-                    </div>
-                </nav>
-            </section>
-            
-        </aside>
+	<div class="pageContainer">
+		<aside class="sidebar">
+			<section class="logo-section">
+				<div class="logo">ToyPj</div>
+				<nav>
+					<div class="menu-item">
+						<img loading="lazy" src="https://cdn.builder.io/api/v1/image/assets/TEMP/a28bd1df9a1e89873dd6529107d0f50a83e39ee38bdc87ef60a2fa0f0eabe998?apiKey=45f58322aded4623984a676e805b906d&" alt="Dashboard icon" class="menu-icon" />
+						<div class="menu-text">Dashboard</div>
+					</div>
+					<div class="menu-item">
+						<img loading="lazy" src="/img/ranking.png" alt="Your Movies icon" class="menu-icon-alt" />
+						<div class="menu-text">Ranking</div>
+					</div>
+					<div class="menu-item">
+						<img loading="lazy" src="https://cdn.builder.io/api/v1/image/assets/TEMP/c5853584d1296cbaac3f7f4645be4527c075aa3daecea54eb7fb41096443d60e?apiKey=45f58322aded4623984a676e805b906d&" alt="Your Movies icon" class="menu-icon-alt" />
+						<div class="menu-text">Your Movies</div>
+					</div>
+				</nav>
+			</section>
 
-        <div class="content">
-            <figure class="image-wrapper">
-                <img src="https://cdn.builder.io/api/v1/image/assets/TEMP/a6b294783667ba3412bad1a7a5cb521c053e0af324839c99b895cc7629bb6918?apiKey=45f58322aded4623984a676e805b906d&" class="image-icon" alt="Description of the image" />
-            </figure>
+		</aside>
 
-            <h2 class="page-title">Movie Ranking </h2>
+		<div class="content">
+			<figure class="image-wrapper">
+				<img src="https://cdn.builder.io/api/v1/image/assets/TEMP/a6b294783667ba3412bad1a7a5cb521c053e0af324839c99b895cc7629bb6918?apiKey=45f58322aded4623984a676e805b906d&" class="image-icon" alt="Description of the image" />
+			</figure>
 
-            <nav class="menu-container">
-                <div id="nav-options" class="nav-options">
-                    <span style="background-color:@GetButtonColorBool(Model.Top5)" id="top5-btn" class="nav-item-top5 nav-item-unselected">Top 5</span>
-                    <span style="background-color:@GetButtonColorBool(Model.All)" id="all-btn" class="nav-item-all">
-                            All
-                    </span>
-                    <span style="background-color:@GetButtonColorBool(Model.New)" id="new-btn" class="nav-item-new">
-                            New
-                    </span>
-                    <div class="nav-item-category-wrapper">
-                        <span class="category-label">Category</span>
-                        <img loading="lazy" src="https://cdn.builder.io/api/v1/image/assets/TEMP/a7cdb15f59150ef871bfe4d690ca66e4a50adc1d86ad26fd60ebde9b6a4ad7e8?apiKey=45f58322aded4623984a676e805b906d&" class="icon" alt="Category icon" />
-                    </div>
-                </div>
-                <div class="yearly-indicator">
-                    <span class="year-label">2023</span>
-                    <img loading="lazy" src="https://cdn.builder.io/api/v1/image/assets/TEMP/1e035a6a46a6e8fc0c0c4295f246891375be7492e7864a700aff326f3d62dcad?apiKey=45f58322aded4623984a676e805b906d&" class="icon" alt="Yearly icon" />
-                </div>
-            </nav>
-            <div class="movie-list">
-                @for (var index = 1; index <= Model.Items.Count; index++)
-                {
-                    <div class="flex-container">
-                        <div class="highlighted-text">@index</div>
-                        <div class="content-wrapper">
-                            <div class="flex-row">
-                                <div class="column">
-                                    <img loading="lazy" src="https://cdn.builder.io/api/v1/image/assets/TEMP/185e4048da2a4f1fbff5dea7c7cb4563aad78ffdc7d365bbd617cea3dbea1b88?apiKey=45f58322aded4623984a676e805b906d&" alt="Movie poster" class="image" />
-                                </div>
-                                <div class="details-column">
-                                    <div class="details-wrapper">
-                                        <div class="title-rating">
-                                            <h2 class="movie-title">@Model.Items[index - 1].Title</h2>
-                                            <span class="release-year">(@Model.Items[index - 1].ReleaseYear)</span>
-                                            <div class="rating-container">
-                                                <span class="release-year">@Model.Items[index - 1].CountryCode</span>
-                                            </div>
-                                        </div>
-                                        <p class="director">@Model.Items[index - 1].MainCastName</p>
-                                        <p class="cast">@Model.Items[index - 1].CastList</p>
-                                    </div>
-                                </div>
-                                <div class="rating-column">
-                                    <div class="rating-wrapper">
-                                        <span class="rating-score">@Model.Items[index - 1].VotesAvg</span>
-                                        <img loading="lazy" src="https://cdn.builder.io/api/v1/image/assets/TEMP/2a92e5c785c19e07a516c1e4e04b5d16c32fe055756ff3c2f594f14932016227?apiKey=45f58322aded4623984a676e805b906d&" alt="Rating icon" class="small-image" />
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                }
+			<h2 class="page-title">Movie Ranking </h2>
 
-            </div>
+			<form class="menu-container" asp-action="Index" id="submit-filter" method="get">
+				<div id="nav-options" class="nav-options">
+					<span style="background-color:@GetButtonColorBool(Model.Top5)" id="top5-btn" class="nav-item-top5 nav-item-unselected">
+						Top5 <input asp-for="Top5" name="Top5" type="checkbox" />
+					</span>
+					<span style="background-color:@GetButtonColorBool(Model.All)" id="all-btn" class="nav-item-all">
+						All <input asp-for="All" name="All" type="checkbox" />
+					</span>
+					<span style="background-color:@GetButtonColorBool(Model.New)" id="new-btn" class="nav-item-new">
+						New <input asp-for="New" name="New" type="checkbox" />
+					</span>
+					<select asp-for="GenreName" id="category-btn" class="dropdown">
+						<span class="category-label">Category</span>
+						<img loading="lazy" src="https://cdn.builder.io/api/v1/image/assets/TEMP/a7cdb15f59150ef871bfe4d690ca66e4a50adc1d86ad26fd60ebde9b6a4ad7e8?apiKey=45f58322aded4623984a676e805b906d&" class="icon" alt="Category icon" />
+						<div class="dropdown-content">
+							@foreach (var genre in ViewBag.Genre)
+							{
+							<option value="@genre.GenreName">@genre.GenreName</option>
+							}
+				</div>
+				</select>
+		</div>
 
-        </div>
+		<select asp-for="Year" id="year-btn" class="dropdown yearly-indicator">
+			<span class="year-label">2023</span>
+			<img loading="lazy" src="https://cdn.builder.io/api/v1/image/assets/TEMP/1e035a6a46a6e8fc0c0c4295f246891375be7492e7864a700aff326f3d62dcad?apiKey=45f58322aded4623984a676e805b906d&" class="icon" alt="Yearly icon" />
 
-    </div>
+			<div class="dropdown-content">
+						@foreach (var genre in ViewBag.Genre)
+						{
+								<option>2013</option>
+						}
+	</div>
+	</select>
+	</form>
+	<div class="movie-list">
+				@for (var index = 1; index <= Model.Items.Count; index++)
+				{
+			<div class="flex-container">
+				<div class="highlighted-text">@index</div>
+				<div class="content-wrapper">
+					<div class="flex-row">
+						<div class="column">
+							<img loading="lazy" src="https://cdn.builder.io/api/v1/image/assets/TEMP/185e4048da2a4f1fbff5dea7c7cb4563aad78ffdc7d365bbd617cea3dbea1b88?apiKey=45f58322aded4623984a676e805b906d&" alt="Movie poster" class="image" />
+						</div>
+						<div class="details-column">
+							<div class="details-wrapper">
+								<div class="title-rating">
+									<h2 class="movie-title">@Model.Items[index - 1].Title</h2>
+									<span class="release-year">(@Model.Items[index - 1].ReleaseYear)</span>
+									<div class="rating-container">
+										<span class="release-year">@Model.Items[index - 1].CountryCode</span>
+									</div>
+								</div>
+								<p class="director">@Model.Items[index - 1].MainCastName</p>
+								<p class="cast">@Model.Items[index - 1].CastList</p>
+							</div>
+						</div>
+						<div class="rating-column">
+							<div class="rating-wrapper">
+								<span class="rating-score">@Model.Items[index - 1].VotesAvg</span>
+								<img loading="lazy" src="https://cdn.builder.io/api/v1/image/assets/TEMP/2a92e5c785c19e07a516c1e4e04b5d16c32fe055756ff3c2f594f14932016227?apiKey=45f58322aded4623984a676e805b906d&" alt="Rating icon" class="small-image" />
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+				}
+
+	</div>
+
+	</div>
+
+	</div>
 
 
 </body>
@@ -122,113 +138,114 @@
 
 <script>
 
-    const selectedColor = "#ff6b00";
-    const unselectedColor = "#2c2c2c";
+	const selectedColor = "#ff6b00";
+	const unselectedColor = "#2c2c2c";
 
-    function rgbToHex(r, g, b) {
-        var hexR = ("0" + r.toString(16)).slice(-2);
-        var hexG = ("0" + g.toString(16)).slice(-2);
-        var hexB = ("0" + b.toString(16)).slice(-2);
-        return "#" + hexR + hexG + hexB;
-    }
+	function rgbToHex(r, g, b) {
+		var hexR = ("0" + r.toString(16)).slice(-2);
+		var hexG = ("0" + g.toString(16)).slice(-2);
+		var hexB = ("0" + b.toString(16)).slice(-2);
+		return "#" + hexR + hexG + hexB;
+	}
 
-    function setBackgroundColor(elementId, value) {
-        $("#" + elementId).css("background-color", value);
-    }
-    
+	function setBackgroundColor(elementId, value) {
+		$("#" + elementId).css("background-color", value);
+	}
 
-    function getHexColor(element) {
-        var rgb = $(element).css('background-color');
-        var result = rgb.match(/^rgb\((\d+),\s*(\d+),\s*(\d+)\)$/);
-        if (result) {
-            var r = parseInt(result[1]);
-            var g = parseInt(result[2]);
-            var b = parseInt(result[3]);
-            return rgbToHex(r, g, b);
-        } else {
-            throw new Error("Could not parse RGB color");
-        }
-    }
+	function getHexColor(element) {
+		var rgb = $(element).css('background-color');
+		var result = rgb.match(/^rgb\((\d+),\s*(\d+),\s*(\d+)\)$/);
+		if (result) {
+			var r = parseInt(result[1]);
+			var g = parseInt(result[2]);
+			var b = parseInt(result[3]);
+			return rgbToHex(r, g, b);
+		} else {
+			throw new Error("Could not parse RGB color");
+		}
+	}
 
-    function generateQueryParams(params) {
-        return Object.keys(params)
-            .map(key => encodeURIComponent(key) + '=' + encodeURIComponent(params[key]))
-            .join('&');
-    }
+	function generateQueryParams(params) {
+		return Object.keys(params)
+			.map(key => encodeURIComponent(key) + '=' + encodeURIComponent(params[key]))
+			.join('&');
+	}
 
-    function ChangeMenuItemStatus(elementId) {
-        var menuValue = getHexColor("#" + elementId);
-        if (menuValue == selectedColor) {
-            setBackgroundColor(elementId, unselectedColor);
-            return false;
-        }
+	function ChangeMenuItemStatus(elementId) {
+		var menuValue = getHexColor("#" + elementId);
+		if (menuValue == selectedColor) {
+			setBackgroundColor(elementId, unselectedColor);
+			return false;
+		}
 
-        if (menuValue == unselectedColor) {
-            setBackgroundColor(elementId, selectedColor);
-            return true;
-        }
-    }
+		if (menuValue == unselectedColor) {
+			setBackgroundColor(elementId, selectedColor);
+			return true;
+		}
+	}
 
-    function GetMenuItemStatus(elementId) {
-        var menuValue = getHexColor("#" + elementId);
-        if (menuValue == selectedColor) {
-            return true;
-        }
+	function GetMenuItemStatus(elementId) {
+		var menuValue = getHexColor("#" + elementId);
+		if (menuValue == selectedColor) {
+			return true;
+		}
 
-        if (menuValue == unselectedColor) {
-            return false;
-        }
-    }
+		if (menuValue == unselectedColor) {
+			return false;
+		}
+	}
 
-    function updateModel(params) {
-        // Make AJAX call to update the server-side model
-        $.ajax({
-            url: '@Url.Action("Index", "Ranking")', // Adjust URL as per your controller and action
-            type: 'GET',
-            data: params,
-            success: function (data) {
-                $('html').empty();
-                $('html').html(data);
-            },
-            error: function (xhr, status, error) {
-                console.error('Error occurred:', error);
-            }
-        });
-    }
+	function handleSelectionChange() {
 
-    function handleMenuChange(elementIdentifier) {
-        $('#' + elementIdentifier).on("click", function () {
 
-            switch (elementIdentifier){
-                case 'all-btn': {
-                    ChangeMenuItemStatus('all-btn');
-                    break;
-                }
-                case 'new-btn': {
-                    ChangeMenuItemStatus('new-btn');
-                    break;
-                }
-                case 'top5-btn': {
-                    ChangeMenuItemStatus('top5-btn');
-                    break;
-                }
-            }
-            const params = {
-                top5: GetMenuItemStatus('top5-btn'),
-                all: GetMenuItemStatus('all-btn'),
-                new: GetMenuItemStatus('new-btn')
-            };
+		$('#category-btn').change(function(e){
+			var val = $(e.target).val();
+			
+			$('#submit-filter').submit();
+		});
 
-            const queryString = generateQueryParams(params);
-        });
-    }
+	}
 
-  
-    $(document).ready(function () {
-        handleMenuChange('new-btn');
-        handleMenuChange('all-btn');
-        handleMenuChange('top5-btn');
-    })
+	function handleMenuChange(elementIdentifier) {
+		$('#' + elementIdentifier).on("click", function () {
+
+			switch (elementIdentifier) {
+				case 'all-btn': {
+					ChangeMenuItemStatus('all-btn');
+
+					break;
+				}
+				case 'new-btn': {
+					ChangeMenuItemStatus('new-btn');
+					break;
+				}
+				case 'top5-btn': {
+					ChangeMenuItemStatus('top5-btn');
+					break;
+				}
+				case 'year-btn': {
+					ChangeMenuItemStatus('year-btn');
+					break;
+				}
+				case 'category-btn': {
+					ChangeMenuItemStatus('category-btn');
+					break;
+				}
+			}
+
+			$('#submit-filter').submit();
+		});
+	}
+
+
+	$(document).ready(function () {
+		handleMenuChange('new-btn');
+		handleMenuChange('all-btn');
+		handleMenuChange('top5-btn');
+		//handleMenuChange('year-btn');
+		//handleMenuChange('category-btn');
+		handleSelectionChange();
+	})
 </script>
 
 </html>
