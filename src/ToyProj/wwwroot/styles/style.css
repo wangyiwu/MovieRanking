@@ -643,3 +643,7 @@ a:active {
     padding:10px;
 }
 
+.movie-detail-title{
+    display:flex;
+    flex-direction:row;
+}

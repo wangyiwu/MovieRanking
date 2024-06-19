@@ -1,4 +1,5 @@
 ﻿@model MovieRankingViewModel
+
 @{
 	Layout = null;
 }
@@ -9,6 +10,20 @@
 	string GetButtonColorInt(int? value) => (value.HasValue && value.Value > 0) ? "#ff6b00" : "2c2c2c";
 
 	string GetButtonColorString(string value) => !string.IsNullOrEmpty(value) ? "#ff6b00" : "2c2c2c";
+
+	string ToQueryString<T>(T obj)
+	{
+		if (obj == null)
+		{
+			throw new ArgumentNullException(nameof(obj));
+		}
+
+		var properties = typeof(T).GetProperties()
+										.Where(p => p.CanRead && p.GetValue(obj, null) != null && p.Name != "Items")
+										.Select(p => $"{Uri.EscapeDataString(p.Name)}={Uri.EscapeDataString(p.GetValue(obj, null).ToString())}");
+
+		return string.Join("&", properties);
+	}
 
 }
 
@@ -52,7 +67,7 @@
 				<img src="https://cdn.builder.io/api/v1/image/assets/TEMP/a6b294783667ba3412bad1a7a5cb521c053e0af324839c99b895cc7629bb6918?apiKey=45f58322aded4623984a676e805b906d&" class="image-icon" alt="Description of the image" />
 			</figure>
 
-			<h2 class="page-title">Movie Ranking </h2>
+			<h2 class="page-title">Movie Ranking</h2>
 
 			<form class="menu-container" asp-action="Index" id="submit-filter" method="get">
 				<div id="nav-options" class="nav-options">
@@ -72,7 +87,7 @@
 						<option value="">Category</option>
 							@foreach (var genre in ViewBag.Genre)
 							{
-							<option value="@genre.GenreName">@genre.GenreName</option>
+								<option value="@genre.GenreName">@genre.GenreName</option>
 							}
 				</div>
 				</select>
@@ -83,7 +98,7 @@
 			<img loading="lazy" src="https://cdn.builder.io/api/v1/image/assets/TEMP/1e035a6a46a6e8fc0c0c4295f246891375be7492e7864a700aff326f3d62dcad?apiKey=45f58322aded4623984a676e805b906d&" class="icon" alt="Yearly icon" />
 
 			<div class="dropdown-content">
-			<option value="0">Year</option>
+						<option value="0">Year</option>
 						@foreach (var year in ViewBag.ListYear)
 						{
 								<option value="@year">@year</option>
@@ -105,7 +120,12 @@
 							<div class="details-wrapper">
 								<div class="title-rating">
 									<h2 class="movie-title">
-										<a asp-action="MovieDetail" asp-route-movieId="@Model.Items[index-1].MovieId">
+												@{
+													var query = ToQueryString<MovieRankingViewModel>(Model);
+												}
+										<a asp-action="MovieDetail"
+										   asp-route-backQueryParam="@query"
+										   asp-route-movieId="@Model.Items[index-1].MovieId">
 													@Model.Items[index - 1].Title
 										</a>
 									</h2>
@@ -132,125 +152,121 @@
 	</div>
 
 
-	</div>
+	<script>
 
+		const selectedColor = "#ff6b00";
+		const unselectedColor = "#2c2c2c";
 
-</body>
-
-
-<script>
-
-	const selectedColor = "#ff6b00";
-	const unselectedColor = "#2c2c2c";
-
-	function rgbToHex(r, g, b) {
-		var hexR = ("0" + r.toString(16)).slice(-2);
-		var hexG = ("0" + g.toString(16)).slice(-2);
-		var hexB = ("0" + b.toString(16)).slice(-2);
-		return "#" + hexR + hexG + hexB;
-	}
-
-	function setBackgroundColor(elementId, value) {
-		$("#" + elementId).css("background-color", value);
-	}
-
-	function getHexColor(element) {
-		var rgb = $(element).css('background-color');
-		var result = rgb.match(/^rgb\((\d+),\s*(\d+),\s*(\d+)\)$/);
-		if (result) {
-			var r = parseInt(result[1]);
-			var g = parseInt(result[2]);
-			var b = parseInt(result[3]);
-			return rgbToHex(r, g, b);
-		} else {
-			throw new Error("Could not parse RGB color");
-		}
-	}
-
-	function generateQueryParams(params) {
-		return Object.keys(params)
-			.map(key => encodeURIComponent(key) + '=' + encodeURIComponent(params[key]))
-			.join('&');
-	}
-
-	function ChangeMenuItemStatus(elementId) {
-		var menuValue = getHexColor("#" + elementId);
-		if (menuValue == selectedColor) {
-			setBackgroundColor(elementId, unselectedColor);
-			return false;
+		function rgbToHex(r, g, b) {
+			var hexR = ("0" + r.toString(16)).slice(-2);
+			var hexG = ("0" + g.toString(16)).slice(-2);
+			var hexB = ("0" + b.toString(16)).slice(-2);
+			return "#" + hexR + hexG + hexB;
 		}
 
-		if (menuValue == unselectedColor) {
-			setBackgroundColor(elementId, selectedColor);
-			return true;
-		}
-	}
-
-	function GetMenuItemStatus(elementId) {
-		var menuValue = getHexColor("#" + elementId);
-		if (menuValue == selectedColor) {
-			return true;
+		function setBackgroundColor(elementId, value) {
+			$("#" + elementId).css("background-color", value);
 		}
 
-		if (menuValue == unselectedColor) {
-			return false;
+		function getHexColor(element) {
+			var rgb = $(element).css('background-color');
+			var result = rgb.match(/^rgb\((\d+),\s*(\d+),\s*(\d+)\)$/);
+			if (result) {
+				var r = parseInt(result[1]);
+				var g = parseInt(result[2]);
+				var b = parseInt(result[3]);
+				return rgbToHex(r, g, b);
+			} else {
+				throw new Error("Could not parse RGB color");
+			}
 		}
-	}
 
-	function handleSelectionChange() {
+		function generateQueryParams(params) {
+			return Object.keys(params)
+				.map(key => encodeURIComponent(key) + '=' + encodeURIComponent(params[key]))
+				.join('&');
+		}
 
-		$('#category-btn').change(function(e){
-			var val = $(e.target).val();
-			ChangeMenuItemStatus('category-btn');
-			$('#submit-filter').submit();
-		});
-
-		$('#year-btn').change(function (e) {
-			var val = $(e.target).val();
-			ChangeMenuItemStatus('category-btn');
-			$('#submit-filter').submit();
-		});
-
-	}
-
-	function handleMenuChange(elementIdentifier) {
-		$('#' + elementIdentifier).on("click", function () {
-
-			switch (elementIdentifier) {
-				case 'all-btn': {
-					ChangeMenuItemStatus('all-btn');
-
-					break;
-				}
-				case 'new-btn': {
-					ChangeMenuItemStatus('new-btn');
-					break;
-				}
-				case 'top5-btn': {
-					ChangeMenuItemStatus('top5-btn');
-					break;
-				}
-				case 'year-btn': {
-					ChangeMenuItemStatus('year-btn');
-					break;
-				}
-				case 'category-btn': {
-					ChangeMenuItemStatus('category-btn');
-					break;
-				}
+		function ChangeMenuItemStatus(elementId) {
+			var menuValue = getHexColor("#" + elementId);
+			if (menuValue == selectedColor) {
+				setBackgroundColor(elementId, unselectedColor);
+				return false;
 			}
 
-			$('#submit-filter').submit();
-		});
-	}
+			if (menuValue == unselectedColor) {
+				setBackgroundColor(elementId, selectedColor);
+				return true;
+			}
+		}
+
+		function GetMenuItemStatus(elementId) {
+			var menuValue = getHexColor("#" + elementId);
+			if (menuValue == selectedColor) {
+				return true;
+			}
+
+			if (menuValue == unselectedColor) {
+				return false;
+			}
+		}
+
+		function handleSelectionChange() {
+
+			$('#category-btn').change(function (e) {
+				var val = $(e.target).val();
+				ChangeMenuItemStatus('category-btn');
+				$('#submit-filter').submit();
+			});
+
+			$('#year-btn').change(function (e) {
+				var val = $(e.target).val();
+				ChangeMenuItemStatus('category-btn');
+				$('#submit-filter').submit();
+			});
+
+		}
+
+		function handleMenuChange(elementIdentifier) {
+			$('#' + elementIdentifier).on("click", function () {
+
+				switch (elementIdentifier) {
+					case 'all-btn': {
+						ChangeMenuItemStatus('all-btn');
+
+						break;
+					}
+					case 'new-btn': {
+						ChangeMenuItemStatus('new-btn');
+						break;
+					}
+					case 'top5-btn': {
+						ChangeMenuItemStatus('top5-btn');
+						break;
+					}
+					case 'year-btn': {
+						ChangeMenuItemStatus('year-btn');
+						break;
+					}
+					case 'category-btn': {
+						ChangeMenuItemStatus('category-btn');
+						break;
+					}
+				}
+
+				$('#submit-filter').submit();
+			});
+		}
 
 
-	$(document).ready(function () {
-		handleMenuChange('new-btn');
-		handleMenuChange('all-btn');
-		handleMenuChange('top5-btn');
-		handleSelectionChange();
-	})
-</script>
+		$(document).ready(function () {
+			handleMenuChange('new-btn');
+			handleMenuChange('all-btn');
+			handleMenuChange('top5-btn');
+			handleSelectionChange();
+		})
+	</script>
+</body>
+
 
 </html>

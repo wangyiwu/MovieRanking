@@ -13,5 +13,6 @@
 		public int VotesCount { get; set; }
 		public string GenreName { get; set; }
 		public DateTime ReleaseDate { get; set; }
+		public string BackQueryParam { get; set; }
 	}
 }

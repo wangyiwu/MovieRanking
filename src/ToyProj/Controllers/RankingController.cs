@@ -1,4 +1,7 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using System.Collections.Specialized;
+using System.Web;
 using ToyProj.Abstractions.ResultData;
 using ToyProj.Models;
 using ToyProj.Services.Genre.Repository;
@@ -42,7 +45,41 @@ namespace ToyProj.Controllers
             return View(model);
         }
 
-        public async Task<IActionResult> MovieDetail(int movieId)
+		[HttpGet]
+		public RedirectToActionResult Redirect(string toAction, string backQueryParam)
+		{
+			var queryDict = ParseQueryString(backQueryParam);
+
+			var model = ConvertToModel<MovieRankingViewModel>(queryDict);
+
+			return RedirectToAction(toAction, "Ranking", model);
+		}
+
+		private Dictionary<string, string> ParseQueryString(string queryString)
+		{
+			var queryDictionary = System.Web.HttpUtility.ParseQueryString(queryString);
+			return queryDictionary.AllKeys.ToDictionary(k => k, k => queryDictionary[k]);
+		}
+
+		private T ConvertToModel<T>(Dictionary<string, string> dictionary) where T : new()
+		{
+			var obj = new T();
+			var objType = typeof(T);
+
+			foreach (var kvp in dictionary)
+			{
+				var property = objType.GetProperty(kvp.Key);
+				if (property != null && property.CanWrite)
+				{
+					var convertedValue = Convert.ChangeType(kvp.Value, property.PropertyType);
+					property.SetValue(obj, convertedValue);
+				}
+			}
+
+			return obj;
+		}
+
+		public async Task<IActionResult> MovieDetail(int movieId, string backQueryParam)
 		{
             var request = new MovieRankingRequestModel()
             {
@@ -53,11 +90,14 @@ namespace ToyProj.Controllers
 
             var result = new MovieDetailViewModel()
             {
-                Title = movie.Title
+                Title = movie.Title,
+                BackQueryParam = backQueryParam
             };
 
             return View(result);
         }
+
+
 
     }
 }

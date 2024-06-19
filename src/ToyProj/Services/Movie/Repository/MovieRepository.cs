@@ -28,12 +28,21 @@ namespace ToyProj.Services.Movie.Repository
         {
             string orderBy = string.IsNullOrEmpty(query.OrderBy) ? "ReleaseYear" : query.OrderBy;
 
-            string queryByGenere = "";
+            string where = "";
 
             if (!string.IsNullOrEmpty(query.GenreName))
             {
-                queryByGenere = $@"where g.GenreName = '{query.GenreName}'";
+                where = $@"where g.GenreName = '{query.GenreName}'";
             }
+
+			if (!string.IsNullOrEmpty(where) && query.Year > 0)
+			{
+				where += $@" and Year(m.ReleaseDate) = {query.Year}";
+			}
+			else if(query.Year > 0)
+			{
+				where += $@"where Year(m.ReleaseDate) = {query.Year}";
+			}
 
             int count = (query.Count.HasValue && query.Count > 0)  ? query.Count.Value : 100;
 
@@ -67,7 +76,7 @@ namespace ToyProj.Services.Movie.Repository
 									GROUP BY
 										M.Title, PMain.PersonName, M.MovieId   
 								  ) as CastList  on CastList.MovieId = m.MovieId
-									 {queryByGenere}
+									 {where}
                                   order by {orderBy} desc";
 
 			var result = await db.Database.SqlQueryRaw<MovieRankingData>(querySql).ToListAsync();
