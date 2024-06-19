@@ -22,16 +22,17 @@ namespace ToyProj.Controllers
         public async Task<IActionResult> Index(MovieRankingViewModel model)
         {
             var genre = await genreRepository.GetGenre();
+            var listYear = await movieRepository.GetYears();
 
             ViewBag.Genre = genre;
+            ViewBag.ListYear = listYear;
 
             var requestModel = new MovieRankingRequestModel()
             {
-                Count = model.Top5 == true ? 5 : 100,
-                Skip = model.Skip,
+                Count = model.Top5 ? 5 : model.All ? int.MaxValue : 100,
                 GenreName = model.GenreName,
-                OrderBy = model.OrderBy ,   
                 Year = model.Year,
+                OrderBy = model.New ? "ReleaseDate" : "ReleaseYear"
             };
 
             var movieRankingData = await movieRepository.GetMovieRankings(requestModel);

@@ -6,7 +6,7 @@
 @{
 	string GetButtonColorBool(bool? value) => value.HasValue && value.Value ? "#ff6b00" : "2c2c2c";
 
-	string GetButtonColorInt(int? value) => value.HasValue ? "#ff6b00" : "2c2c2c";
+	string GetButtonColorInt(int? value) => (value.HasValue && value.Value > 0) ? "#ff6b00" : "2c2c2c";
 
 	string GetButtonColorString(string value) => !string.IsNullOrEmpty(value) ? "#ff6b00" : "2c2c2c";
 
@@ -69,6 +69,7 @@
 						<span class="category-label">Category</span>
 						<img loading="lazy" src="https://cdn.builder.io/api/v1/image/assets/TEMP/a7cdb15f59150ef871bfe4d690ca66e4a50adc1d86ad26fd60ebde9b6a4ad7e8?apiKey=45f58322aded4623984a676e805b906d&" class="icon" alt="Category icon" />
 						<div class="dropdown-content">
+						<option value="">Category</option>
 							@foreach (var genre in ViewBag.Genre)
 							{
 							<option value="@genre.GenreName">@genre.GenreName</option>
@@ -82,9 +83,10 @@
 			<img loading="lazy" src="https://cdn.builder.io/api/v1/image/assets/TEMP/1e035a6a46a6e8fc0c0c4295f246891375be7492e7864a700aff326f3d62dcad?apiKey=45f58322aded4623984a676e805b906d&" class="icon" alt="Yearly icon" />
 
 			<div class="dropdown-content">
-						@foreach (var genre in ViewBag.Genre)
+			<option value="0">Year</option>
+						@foreach (var year in ViewBag.ListYear)
 						{
-								<option>2013</option>
+								<option value="@year">@year</option>
 						}
 			</div>
 		</select>
@@ -197,8 +199,13 @@
 
 	function handleSelectionChange() {
 
-
 		$('#category-btn').change(function(e){
+			var val = $(e.target).val();
+			ChangeMenuItemStatus('category-btn');
+			$('#submit-filter').submit();
+		});
+
+		$('#year-btn').change(function (e) {
 			var val = $(e.target).val();
 			ChangeMenuItemStatus('category-btn');
 			$('#submit-filter').submit();

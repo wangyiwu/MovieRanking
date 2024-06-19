@@ -19,7 +19,12 @@ namespace ToyProj.Services.Movie.Repository
             this.db = db;
         }
 
-        public async Task<List<MovieRankingData>> GetMovieRankings(MovieRankingRequestModel query)
+		public async Task<List<int>> GetYears()
+		{
+			return await db.Movie.Select(x => x.ReleaseDate.Year).Distinct().ToListAsync();
+		}
+
+		public async Task<List<MovieRankingData>> GetMovieRankings(MovieRankingRequestModel query)
         {
             string orderBy = string.IsNullOrEmpty(query.OrderBy) ? "ReleaseYear" : query.OrderBy;
 
