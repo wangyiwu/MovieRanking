@@ -91,7 +91,10 @@ namespace ToyProj.Controllers
             var result = new MovieDetailViewModel()
             {
                 Title = movie.Title,
-                BackQueryParam = backQueryParam
+                BackQueryParam = backQueryParam,
+                CastList = movie.CastList,
+                MainCastName = movie.MainCastName,
+                VotesAvg = movie.VotesAvg,
             };
 
             return View(result);

@@ -59,6 +59,31 @@
 
 				<h2 class="page-title">@Model.Title</h2>
 			</div>
+
+			<section class="movie-detail-container">
+				<div class="details-column">
+					<div class="image-column">
+						<img loading="lazy" src="https://cdn.builder.io/api/v1/image/assets/TEMP/fcb8914690fd0c8605e657e22de1474b1ac869882980f0ae240aef4de055faae?apiKey=45f58322aded4623984a676e805b906d&" alt="Movie Poster" class="main-image" />
+					</div>
+					<div class="details-container">
+						<div class="title-rating">
+							<img loading="lazy" src="https://cdn.builder.io/api/v1/image/assets/TEMP/5d316cc08fc2939a6b0088143b8f37bd90af9e7641fffdbf4f2f1e6472c0f422?apiKey=45f58322aded4623984a676e805b906d&" alt="Rating Icon" class="rating-image" />
+							<div class="rating-text">@Model.VotesAvg</div>
+						</div>
+						<div class="color-bars">
+							<div class="color-bar-green"></div>
+							<div class="color-bar-orange"></div>
+						</div>
+						<p class="director">Director: @Model.MainCastName</p>
+						<p class="cast">Cast: @Model.CastList</p>
+						<p class="synopsis">@Model.MainCastName</p>
+					</div>
+				</div>
+
+				<div class="trailer">
+					<img loading="lazy" src="/img/play.svg" alt="Movie Poster" class="image-icon" />
+				</div>
+			</section>
 			
 		</div>
 	</div>
