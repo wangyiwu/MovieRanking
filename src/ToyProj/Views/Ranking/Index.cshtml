@@ -84,14 +84,14 @@
 						<span class="category-label">Category</span>
 						<img loading="lazy" src="https://cdn.builder.io/api/v1/image/assets/TEMP/a7cdb15f59150ef871bfe4d690ca66e4a50adc1d86ad26fd60ebde9b6a4ad7e8?apiKey=45f58322aded4623984a676e805b906d&" class="icon" alt="Category icon" />
 						<div class="dropdown-content">
-						<option value="">Category</option>
-							@foreach (var genre in ViewBag.Genre)
-							{
-								<option value="@genre.GenreName">@genre.GenreName</option>
-							}
+							<option value="">Category</option>
+								@foreach (var genre in ViewBag.Genre)
+								{
+									<option value="@genre.GenreName">@genre.GenreName</option>
+								}
+						</div>
+					</select>
 				</div>
-				</select>
-		</div>
 
 		<select style="background-color:@GetButtonColorInt(Model.Year)" asp-for="Year" id="year-btn" class="dropdown yearly-indicator">
 			<span class="year-label">2023</span>
