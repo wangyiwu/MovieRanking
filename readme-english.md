@@ -1,30 +1,30 @@
-# Guide to Run .NET Core MVC Project and Initialize a Database in SQL Server Management Studio (SSMS)
+# Hướng dẫn chạy .NET Core MVC Project và khởi tạo cơ sở dữ liệu trong SQL Server Management Studio (SSMS)
 
-## Creating a New Database in SQL Server Management Studio (SSMS)
+## Tạo cơ sở dữ liệu mới trong SQL Server Management Studio (SSMS)
 
-1. Open SQL Server Management Studio:
+1. Mở SQL Server Management Studio:
 
-* Launch SSMS: From the Start Menu or Desktop.
+* Khởi chạy SSMS: Từ Start Menu hoặc Desktop.
 
-2. Connect to a Server:
+2. Kết nối với Máy chủ:
 
-Connect to Your Server: Enter your server name and authentication method, then click "Connect."
+Kết nối với máy chủ của bạn: Nhập tên máy chủ và phương thức xác thực của bạn, sau đó nhấp vào "Kết nối".
 
-3. Create a New Database:
+3. Tạo cơ sở dữ liệu mới:
 
-* Right-click on Databases: In Object Explorer, right-click on the "Databases" node.
-* Select New Database: Enter the database name and click "OK."
+* Nhấp chuột phải vào Cơ sở dữ liệu: Trong Object Explorer, nhấp chuột phải vào nút "Cơ sở dữ liệu".
+* Chọn Cơ sở dữ liệu mới: Nhập tên cơ sở dữ liệu và nhấp vào "OK."
 
-4. Execute initialize Database
+4. Thực thi khởi tạo cơ sở dữ liệu
 
-* Right-click on database name which created in previous step
-* Select New Query
-* Copy and Paste init.sql content and press Execute
+* Nhấp chuột phải vào tên cơ sở dữ liệu đã tạo ở bước trước
+* Chọn Truy vấn mới
+* Sao chép và Dán nội dung init.sql rồi nhấn Thực thi
 
 
-5. Update ConnectionString in appsetting.json
+5. Cập nhật ConnectionString trong appsinstall.json
 
-Tip: you can execute this query in SSMS to get connection string:
+Mẹo: bạn có thể thực hiện truy vấn này trong SSMS để nhận chuỗi kết nối:
 
 ```
 select
@@ -40,4 +40,11 @@ select
 from sys.server_principals
 where name = suser_name()
 ```
+
+Then you can copy result of the query to DefaultConnection section in appsetting.
+
+## Database schema
+
+Bên trong thư mục mã nguồn, truy cập vào thư mục docs: databaseschema.png
+
 
