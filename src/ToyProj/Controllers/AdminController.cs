@@ -6,6 +6,7 @@ namespace ToyProj.Controllers
     {
         public IActionResult Index()
         {
+            
             return View();
         }
 

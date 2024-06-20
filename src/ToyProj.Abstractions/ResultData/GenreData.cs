@@ -9,5 +9,6 @@ namespace ToyProj.Abstractions.ResultData
     public class GenreData
     {
         public string GenreName { get; set; }
+        public int GenreId { get; set; }
     }
 }

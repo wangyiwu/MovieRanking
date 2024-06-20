@@ -17,7 +17,8 @@ namespace ToyProj.Services.Genre.Repository
         {
             var result = await db.Genre.Select(x => new GenreData()
             {
-                GenreName = x.GenreName
+                GenreName = x.GenreName,
+                GenreId = x.GenreId,
             }).ToListAsync();
 
             return result;

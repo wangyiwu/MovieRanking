@@ -2,6 +2,11 @@
 {
 	public class MovieListViewModel
 	{
+		List<MovieAdminItem> Items { get; set; }
+	}
+
+	public class MovieAdminItem
+	{
 		public string Title { get; set; }
 		public int Budget { get; set; }
 		public string Homepage { get; set; }
@@ -26,6 +31,7 @@
 
 	public class MovieCastModel
 	{
+		public int MovieId { get; set; }
 		public int PersonId { get; set; }
 		public int GenderId { get; set; }
 		public string CharacterName { get; set; }
