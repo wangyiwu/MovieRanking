@@ -4,6 +4,6 @@ namespace ToyProj.Services.Genre.Repository
 {
     public interface IGenreRepository
     {
-        Task<List<GenreData>> GetGenre();
+        Task<List<GenreData>> GetGenres();
     }
 }

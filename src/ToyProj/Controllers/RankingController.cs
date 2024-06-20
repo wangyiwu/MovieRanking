@@ -24,7 +24,7 @@ namespace ToyProj.Controllers
 
         public async Task<IActionResult> Index(MovieRankingViewModel model)
         {
-            var genre = await genreRepository.GetGenre();
+            var genre = await genreRepository.GetGenres();
             var listYear = await movieRepository.GetYears();
 
             ViewBag.Genre = genre;
@@ -99,6 +99,7 @@ namespace ToyProj.Controllers
 
             return View(result);
         }
+
 
 
 

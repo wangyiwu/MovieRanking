@@ -82,7 +82,6 @@ namespace ToyProj.Services.Movie.Repository
 			var result = await db.Database.SqlQueryRaw<MovieRankingData>(querySql).ToListAsync();
 
             return result;
-
         }
     }
 
