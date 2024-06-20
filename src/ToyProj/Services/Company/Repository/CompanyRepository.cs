@@ -17,6 +17,7 @@ namespace ToyProj.Services.Company.Repository
 			var result = await db.ProductionCompany.Select(x => new CompanyData()
 			{
 				CompanyId = x.CompanyId,
+
 				CompanyName = x.CompanyName,
 			}).ToListAsync();
 

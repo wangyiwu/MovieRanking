@@ -11,6 +11,9 @@ namespace ToyProj.Services.Movie.Repository
     public interface IMovieRepository
     {
         public Task<List<MovieRankingData>> GetMovieRankings(MovieRankingRequestModel query);
-        public Task<List<int>> GetYears();
-    }
+		public Task<MovieRankingData> GetMovieRanking(int movieId);
+		public Task<List<int>> GetYears();
+		public Task<List<MovieAdminData>> MovieAdminData(MovieAdminRequestModel request);
+
+	}
 }

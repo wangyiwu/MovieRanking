@@ -1,8 +1,4 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using System.Collections.Specialized;
-using System.Web;
-using ToyProj.Abstractions.ResultData;
+﻿using Microsoft.AspNetCore.Mvc;
 using ToyProj.Models;
 using ToyProj.Services.Genre.Repository;
 using ToyProj.Services.Movie.Models;
@@ -10,7 +6,7 @@ using ToyProj.Services.Movie.Repository;
 
 namespace ToyProj.Controllers
 {
-    public class RankingController : Controller
+	public class RankingController : Controller
     {
         private IMovieRepository movieRepository;
         private IGenreRepository genreRepository;
@@ -81,12 +77,7 @@ namespace ToyProj.Controllers
 
 		public async Task<IActionResult> MovieDetail(int movieId, string backQueryParam)
 		{
-            var request = new MovieRankingRequestModel()
-            {
-
-            };
-
-			var movie =( await movieRepository.GetMovieRankings(request)).Find(x => x.MovieId == movieId);
+            var movie = await movieRepository.GetMovieRanking(movieId);
 
             var result = new MovieDetailViewModel()
             {
