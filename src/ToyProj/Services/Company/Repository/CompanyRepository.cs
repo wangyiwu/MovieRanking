@@ -23,5 +23,40 @@ namespace ToyProj.Services.Company.Repository
 
 			return result;
 		}
+		
+		public async Task<List<MovieCompanyPercentageData>> GetMovieCompanyPercentages()
+		{
+			string baseQuery = $@"WITH CompanyFilmCounts AS (
+										SELECT 
+											mc.CompanyId,
+											COUNT(mc.MovieId) AS NumberOfFilms
+										FROM 
+											MovieCompany mc
+										GROUP BY 
+											mc.CompanyId
+									),
+									TotalFilms AS (
+										SELECT 
+											COUNT(MovieId) AS TotalNumberOfFilms
+										FROM 
+											Movie
+									)
+									SELECT 
+										pc.CompanyName,
+										pc.CompanyId,
+										CAST(cfc.NumberOfFilms AS DECIMAL(10, 2)) / tf.TotalNumberOfFilms * 100 AS Percentage
+									FROM 
+										CompanyFilmCounts cfc
+									JOIN 
+										ProductionCompany pc ON cfc.CompanyId = pc.CompanyId,
+										TotalFilms tf
+									ORDER BY 
+										Percentage DESC;";
+
+
+			var result = db.Database.SqlQueryRaw<MovieCompanyPercentageData>(baseQuery);
+			
+			return await result.ToListAsync();
+		}
 	}
 }

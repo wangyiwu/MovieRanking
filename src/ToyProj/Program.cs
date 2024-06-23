@@ -38,6 +38,6 @@ app.UseAuthorization();
 
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Ranking}/{action=Index}/{id?}");
+    pattern: "{controller=Trending}/{action=Index}/{id?}");
 
 app.Run();

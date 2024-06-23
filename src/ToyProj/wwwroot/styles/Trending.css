@@ -1,0 +1,16 @@
+﻿.dashboard-container{
+    display:flex;
+    flex-direction:column;
+}
+
+.two-column{
+    display:flex;
+    flex-direction:row;
+    justify-content:space-around;
+    align-items: center;
+}
+
+.trending-heading {
+    padding: 20px;
+    background-color: #808080;
+}

@@ -15,5 +15,6 @@ namespace ToyProj.Services.Movie.Repository
 		public Task<List<int>> GetYears();
 		public Task<List<MovieAdminData>> MovieAdminData(MovieAdminRequestModel request);
 
+
 	}
 }

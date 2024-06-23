@@ -30,6 +30,6 @@ namespace ToyProj.Abstractions.ResultData
 		public int GenreId { get; set; }
 		public int LanguageId { get; set; }
 		public int CompanyId { get; set; }
-		public List<int> ListKeywordId { get; set; }
+		public string ListKeywordId { get; set; }
 	}
 }

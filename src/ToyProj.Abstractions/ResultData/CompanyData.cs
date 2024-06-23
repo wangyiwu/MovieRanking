@@ -11,4 +11,11 @@ namespace ToyProj.Abstractions.ResultData
 		public int CompanyId { get; set; }
 		public string CompanyName { get; set; }
 	}
+
+	public class MovieCompanyPercentageData
+	{
+		public string CompanyName { get; set; }
+		public int CompanyId { get; set;}
+		public decimal Percentage { get; set; }
+	}
 }

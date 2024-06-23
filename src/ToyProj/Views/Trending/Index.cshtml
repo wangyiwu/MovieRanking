@@ -1,0 +1,64 @@
+﻿@model TrendingViewModel
+
+@{
+	Layout = null;
+}
+
+@{
+	
+
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Movie Trending</title>
+
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<link href="~/styles/style.css" rel="stylesheet" />
+	<link href="~/styles/Trending.css" rel="stylesheet" />
+	
+	<script src="~/lib/jquery/dist/jquery.js"></script>
+	<script src="~/lib/hightcharts/highcharts.js"></script>
+	<script src="~/lib/hightcharts/modules/data.js"></script>
+	<script src="~/lib/hightcharts/modules/series-label.js"></script>
+	<script src="~/lib/hightcharts/modules/exporting.js"></script>
+	<script src="~/lib/hightcharts/modules/export-data.js"></script>
+	<script src="~/lib/hightcharts/modules/accessibility.js"></script>
+
+
+</head>
+<body>
+	<div class="pageContainer">
+		<partial name="_SideBar" />
+		<div class="content">
+			
+			<div class="trending-heading">
+				<h2 class="page-title">Movie Trending</h2>
+			</div>
+
+			<div class="dashboard-container">
+				<div class="two-column">
+					<partial 	name="_ColumChart" />
+					<partial model="@Model.PieChartViewModel" name="_PieChart" />
+				</div>
+				<div class="two-column">
+					<partial name="_LineTimeSeriesChart" />
+					<partial name="_ColumTacked" />
+				</div>
+
+			</div>
+			
+		</div>
+
+	</div>
+	<script>
+
+		
+	</script>
+</body>
+
+
+</html>
