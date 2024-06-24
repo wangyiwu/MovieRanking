@@ -24,7 +24,7 @@ namespace ToyProj.Controllers
 
             var pieChartViewModel = new PieChartViewModel()
             {
-                Name = "Movie Percentage",
+                Name = "Number of films released by each company",
                 Series = moviePercentageData.Select(x => new PieChartData()
                 {
                     Name = x.CompanyName,

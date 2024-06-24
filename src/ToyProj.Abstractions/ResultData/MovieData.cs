@@ -22,6 +22,5 @@ namespace ToyProj.Abstractions.ResultData
 		public string Tagline { get; set; }
 		public decimal VotesAvg { get; set; }
 		public int VotesCount { get; set; }
-
 	}
 }

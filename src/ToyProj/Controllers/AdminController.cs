@@ -31,8 +31,6 @@ namespace ToyProj.Controllers
 
             var movieCastRequest = new GetMovieCastRequestModel();
 
-
-
             var adminMovieList = await movieRepository.MovieAdminData(adminDataRequest);
 
             var movieCastList = await movieCastRepository.GetMovieCastDatas(movieCastRequest);

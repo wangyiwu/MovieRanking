@@ -19,7 +19,7 @@
                 }
             },
             title: {
-                text: 'USD to EUR exchange rate over time',
+                text: 'Most popular movies',
                 align: 'left',
                 style: {
                 color: 'white',
@@ -27,9 +27,7 @@
                 }
             },
             subtitle: {
-                text: document.ontouchstart === undefined ?
-                    'Click and drag in the plot area to zoom in' :
-                    'Pinch the chart to zoom in',
+                text: '가장 많이 본 영화',
                 align: 'left'
             },
             xAxis: {
@@ -37,7 +35,7 @@
             },
             yAxis: {
                 title: {
-                    text: 'Exchange rate'
+                    text: 'Popularity'
                 }
             },
             legend: {
@@ -76,7 +74,7 @@
 
             series: [{
                 type: 'area',
-                name: 'USD to EUR',
+                name: 'Popularity',
                 data: data
             }]
         });
