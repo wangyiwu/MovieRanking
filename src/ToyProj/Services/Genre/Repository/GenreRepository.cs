@@ -13,6 +13,7 @@ namespace ToyProj.Services.Genre.Repository
         {
             this.db = db;
         }
+
         public async Task<List<GenreData>> GetGenres()
         {
             var result = await db.Genre.Select(x => new GenreData()

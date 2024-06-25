@@ -1,0 +1,57 @@
+﻿.grid-btn {
+    background-color: #2c2c2c;
+    color: white;
+    border: none;
+    margin: 10px;
+    font-family: SF UI Display, sans-serif;
+    justify-content: center;
+    border-radius: 30px;
+    font-weight: 500;
+    padding: 12px 37px;
+}
+
+.grid-btn:hover {
+        background-color: #ff6b00;
+}
+
+.toolbar{
+    color:white;
+    display:flex;
+    flex-direction:column;
+}
+
+.selection-item {
+    font-family: SF UI Display, sans-serif;
+    justify-content: center;
+    border-radius: 30px;
+    font-weight: 500;
+    padding: 10px 15px;
+}
+
+.toolbar-seach-group{
+    display:flex;
+    flex-direction:row;
+    justify-content:center;
+}
+
+.search-group {
+    background-color: #2c2c2c;
+    margin:10px;
+    border-radius:20px;
+    padding:20px
+}
+
+.toolbar-seach-group input {
+    border-radius: 2px;
+}
+
+.toolbar-seach-group button {
+    border-radius: 20px;
+    padding: 10px;
+}
+
+.grid-function {
+    background-color: #2c2c2c;
+    border-radius: 20px;
+    margin: 10px;
+}

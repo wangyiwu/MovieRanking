@@ -51,6 +51,7 @@ namespace ToyProj.Controllers
             var viewModel = new MovieAdminViewModel()
             {
                 ListMovie = adminDateItem.ToList()
+                
             };
 
 			return View(viewModel);

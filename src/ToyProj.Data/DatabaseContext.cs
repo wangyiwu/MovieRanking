@@ -15,7 +15,7 @@ namespace ToyProj.Data
 
         public DbSet<Country> Country { get; set; }
         public DbSet<ProductionCompany> ProductionCompany { get; set; }
-        public DbSet<Language> Languages { get; set; }
+        public DbSet<Language> Language { get; set; }
         public DbSet<LanguageRoles> LanguageRole { get; set; }
         public DbSet<Genre> Genre { get; set; }
         public DbSet<Keyword> Keyword { get; set; }

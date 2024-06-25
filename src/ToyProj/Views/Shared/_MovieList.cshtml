@@ -1,436 +1,677 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
+﻿@using System.Text.Json
+@using ToyProj.Data
+@using ToyProj.Services.Country.Repository
 
-}
+@model List<MovieAdminItem>
+@inject ICountryRepository countryRepository
+@inject DatabaseContext db
 <link href="~/styles/movie_list.css" rel="stylesheet" />
 
-<script src="~/lib/realgrid.2.8.2/realgrid.2.8.2.min.js"></script>
-<link href="~/lib/realgrid.2.8.2/realgrid-white.css" />
-<link href="~/lib/realgrid.2.8.2/realgrid-style.css" />
-<script src="~/lib/realgrid.2.8.2/libs/jszip.min.js"></script>
+
+@{
+	/// get list Country
+	var listCountry = await countryRepository.GetCountry();
+
+	var listCountryName = listCountry.Select(x => x.CountryName).ToArray();
+	var listCountryId = listCountry.Select(x => x.CountryId).ToArray();
+
+	// get list Language 
+
+	var listLanguague = db.Language.Select(x => x.LanguageName).ToArray();
+	var listLanguagueId = db.Language.Select(x => x.LanguageId).ToArray();
+
+	// get list gender
+
+	var listGender = db.Gender.Select(x => x.GenderName).ToArray();
+	var listGenderId = db.Gender.Select(x => x.GenderId).ToArray();
+
+	// get list person
+
+
+}
 
 <style>
 	#realgrid {
 		width: 100%;
-		height: 440px;
-	}
+		height: 440px;}
+	
 </style>
 
 <script>
+
+	const listCountry = @Html.Raw(JsonSerializer.Serialize(listCountryName));
+	const listCountryId = @Html.Raw(JsonSerializer.Serialize(listCountryId));
+
 	var realGrid2Lic = 'upVcPE+wPOmtLjqyBIh9RkM/nBOseBrflwxYpzGZyYm9cY8amGDkiHqyYT2U1Yh3Dufv8SUhNy6uxbhPga83Fw==';
 
-
-    var fields = [
-        {
-            fieldName: "KorName",
-            dataType: "text"
-        },
-        {
-            fieldName: "Gender",
-            dataType: "text"
-        },
-        {
-            fieldName: "Age",
-            dataType: "number"
-        },
-        {
-            fieldName: "Phone",
-            dataType: "text"
-        },
-        {
-            fieldName: "ProductId",
-            dataType: "text"
-        },
-        {
-            fieldName: "KorCountry",
-            dataType: "text"
-        },
-        {
-            fieldName: "OrderDate",
-            dataType: "datetime",
-            datetimeFormat: "yyyy-MM-dd",
-            amText: "AM",
-            pmText: "PM"
-        },
-        {
-            fieldName: "CardNumber",
-            dataType: "text"
-        },
-        {
-            fieldName: "Monetary",
-            dataType: "text"
-        },
-        {
-            fieldName: "StartDate",
-            dataType: "datetime",
-            datetimeFormat: "yyyy-MM-dd",
-            amText: "AM",
-            pmText: "PM"
-        },
-        {
-            fieldName: "EndDate",
-            dataType: "datetime",
-            datetimeFormat: "yyyy-MM-dd",
-            amText: "AM",
-            pmText: "PM"
-        },
-        {
-            fieldName: "ToMonth",
-            dataType: "number"
-        },
-        {
-            fieldName: "Month",
-            dataType: "number"
-        },
-        {
-            fieldName: "Year",
-            dataType: "number"
-        },
-        {
-            fieldName: "InterestRate",
-            dataType: "number"
-        },
-        {
-            fieldName: "SaveCost",
-            dataType: "number"
-        },
-        {
-            fieldName: "SaveMaturity",
-            dataType: "number"
-        },
-        {
-            fieldName: "CurrentSave",
-            dataType: "number"
-        }
-    ];
-
-    var columns = [
-        {
-            name: "KorName",
-            fieldName: "KorName",
-            width: "60",
-            header: {
-                text: "Name"
-            }
-        },
-        {
-            name: "Gender",
-            fieldName: "Gender",
-            width: "40",
-            header: {
-                text: "Gender"
-            }
-        },
-        {
-            name: "Age",
-            fieldName: "Age",
-            width: "40",
-            header: {
-                text: "Age"
-            },
-            styleName: "right-column"
-        },
-        {
-            name: "Phone",
-            fieldName: "Phone",
-            width: "100",
-            header: {
-                text: "Phone"
-            }
-        },
-        {
-            name: "ProductId",
-            fieldName: "ProductId",
-            width: "120",
-            header: {
-                text: "Product Code"
-            }
-        },
-        {
-            name: "KorCountry",
-            fieldName: "KorCountry",
-            width: "100",
-            header: {
-                text: "Country"
-            }
-        },
-        {
-            name: "OrderDate",
-            fieldName: "OrderDate",
-            width: "100",
-            header: {
-                text: "Order Date"
-            }
-        },
-        {
-            name: "CardNumber",
-            fieldName: "CardNumber",
-            width: "140",
-            header: {
-                text: "Card No."
-            }
-        },
-        {
-            name: "Monetary",
-            fieldName: "Monetary",
-            width: "40",
-            header: {
-                text: "Monetary"
-            }
-        },
-        {
-            name: "StartDate",
-            fieldName: "StartDate",
-            width: "100",
-            header: {
-                text: "Start Date"
-            }
-        },
-        {
-            name: "EndDate",
-            fieldName: "EndDate",
-            width: "100",
-            header: {
-                text: "End Date"
-            }
-        },
-        {
-            name: "ToMonth",
-            fieldName: "ToMonth",
-            width: "50",
-            header: {
-                text: "Pay Cnt."
-            },
-            styleName: "right-column"
-        },
-        {
-            name: "Month",
-            fieldName: "Month",
-            width: "50",
-            header: {
-                text: "Residuum"
-            },
-            styleName: "right-column"
-        },
-        {
-            name: "InterestRate",
-            fieldName: "InterestRate",
-            width: "50",
-            numberFormat: "0.00",
-            header: {
-                text: "Interest Rate"
-            },
-            styleName: "right-column"
-        },
-        {
-            name: "SaveCost",
-            fieldName: "SaveCost",
-            width: "80",
-            numberFormat: "#,##0",
-            header: {
-                text: "Payment"
-            },
-            styleName: "right-column"
-        },
-        {
-            name: "SaveMaturity",
-            fieldName: "SaveMaturity",
-            width: "80",
-            numberFormat: "#,##0",
-            header: {
-                text: "Save Maturity"
-            },
-            styleName: "right-column"
-        },
-        {
-            name: "CurrentSave",
-            fieldName: "CurrentSave",
-            width: "80",
-            numberFormat: "#,##0",
-            header: {
-                text: "Currency Save"
-            },
-            styleName: "right-column"
-        }
-    ];
-
-    var httpRequest;
-
-    function setProvider(filename) {
-        httpRequest = new XMLHttpRequest();
-        httpRequest.onreadystatechange = loadData;
-        httpRequest.open("GET", "/data/en/" + filename);
-        httpRequest.send();
-    }
-
-    function loadData() {
-        if (httpRequest.readyState === XMLHttpRequest.DONE) {
-            if (httpRequest.status === 200) {
-                var data = JSON.parse(httpRequest.responseText);
-                dataProvider.setRows(data);
-                gridView.refresh();
-            }
-        }
-    }
-
-    var dataProvider, gridContainer, gridView;
-
-    function createGrid(container) {
-        RealGrid.setLocale('en');
-        dataProvider = new RealGrid.LocalDataProvider();
-        gridView = new RealGrid.GridView(container);
-
-        gridView.setDataSource(dataProvider);
-        dataProvider.setFields(fields);
-        gridView.setColumns(columns);
-
-        gridView.displayOptions.emptyMessage = "There is no data to display.";
-        gridView.displayOptions.rowHeight = 36;
-        gridView.header.height = 40;
-        gridView.footer.height = 40;
-        gridView.stateBar.width = 16;
-        gridView.editOptions.insertable = true;
-        gridView.editOptions.appendable = true;
+	const MoiveFieldsDefination = [
+		{
+			fieldName: "CountryId",
+			dataType: "text"
+		},
+		{
+			fieldName: "CountryIsoCode",
+			dataType: "text"
+		},
+		{
+			fieldName: "CountryName",
+			dataType: "text"
+		},
+		{
+			fieldName: "MovieId",
+			dataType: "text"
+		},
+		{
+			fieldName: "LanguageId",
+			dataType: "text"
+		},
+		{
+			fieldName: "LanguageRoleId",
+			dataType: "text"
+		},
+		{
+			fieldName: "RoleId",
+			dataType: "text"
+		},
+		{
+			fieldName: "LanguageRole",
+			dataType: "text"
+		},
+		{
+			fieldName: "Title",
+			dataType: "text"
+		},
+		{
+			fieldName: "Budget",
+			dataType: "text"
+		},
+		{
+			fieldName: "Homepage",
+			dataType: "text"
+		},
+		{
+			fieldName: "Overview",
+			dataType: "text"
+		},
+		{
+			fieldName: "Popularity",
+			dataType: "text"
+		},
+		{
+			fieldName: "ReleaseDate",
+			dataType: "text"
+		},
+		{
+			fieldName: "Revenue",
+			dataType: "text"
+		},
+		{
+			fieldName: "Runtime",
+			dataType: "text"
+		},
+		{
+			fieldName: "MovieStatus",
+			dataType: "text"
+		},
+		{
+			fieldName: "Tagline",
+			dataType: "text"
+		},
+		{
+			fieldName: "VotesAvg",
+			dataType: "text"
+		},
+		{
+			fieldName: "VotesCount",
+			dataType: "text"
+		},
+		{
+			fieldName: "CompanyId",
+			dataType: "text"
+		},
+		{
+			fieldName: "CompanyName",
+			dataType: "text"
+		},
+		{
+			fieldName: "GenderId",
+			dataType: "text"
+		},
+		{
+			fieldName: "PersonId",
+			dataType: "text"
+		},
+		{
+			fieldName: "CharacterName",
+			dataType: "text"
+		},
+		{
+			fieldName: "CastOrder",
+			dataType: "text"
+		},
+		{
+			fieldName: "Gender",
+			dataType: "text"
+		},
+		{
+			fieldName: "PersonName",
+			dataType: "text"
+		},
+		{
+			fieldName: "DepartmentId",
+			dataType: "text"
+		},
+		{
+			fieldName: "Job",
+			dataType: "text"
+		},
+		{
+			fieldName: "DepartmentName",
+			dataType: "text"
+		},
+		{
+			fieldName: "GenreId",
+			dataType: "text"
+		},
+		{
+			fieldName: "GenreName",
+			dataType: "text"
+		},
+		{
+			fieldName: "KeywordId",
+			dataType: "text"
+		},
+		{
+			fieldName: "KeywordName",
+			dataType: "text"
+		}
+	];
 
 
+	var columns = [
+		{
+			"name": "CountryId",
+			"fieldName": "CountryId",
+			"width": "150",
+			"sortable": false,
+			"lookupDisplay": true,
+			"editButtonVisibility": "always",
+			values: listCountryId,
+			labels: listCountry,
+			"editor": {
+				 "type": "dropdown"
+			},
+			"header": {
+				"text": "Country",
+			}
+		},
+		{
+			"name": "LanguageId",
+			"fieldName": "LanguageId",
+			"width": "150",
+			"sortable": false,
+			"lookupDisplay": true,
+			"editButtonVisibility": "always",
+			values: listCountryId,
+			labels: listCountry,
+			"editor": {
+				"type": "dropdown"
+			},
+			"header": {
+				"text": "Languague",
+			}
+		},
+		{
+			"name": "LanguageRoleId",
+			"fieldName": "LanguageRoleId",
+			"width": "150",
+			"sortable": false,
+			"lookupDisplay": true,
+			"editButtonVisibility": "always",
+			values: listCountryId,
+			labels: listCountry,
+			"editor": {
+				"type": "dropdown"
+			},
+			"header": {
+				"text": "Languague Role",
+			}
+		},
+		{
+			"name": "RoleId",
+			"fieldName": "RoleId",
+			"width": "150",
+			"sortable": false,
+			"lookupDisplay": true,
+			"editButtonVisibility": "always",
+			values: listCountryId,
+			labels: listCountry,
+			"editor": {
+				"type": "dropdown"
+			},
+			"header": {
+				"text": "Role",
+			}
+		},
+		{
+			name: "Title",
+			fieldName: "Title",
+			width: "200",
+			header: {
+				text: "Title"
+			}
+		},
+		{
+			name: "Budget",
+			fieldName: "Budget",
+			width: "100",
+			header: {
+				text: "Budget"
+			}
+		},
+		{
+			name: "Homepage",
+			fieldName: "Homepage",
+			width: "200",
+			header: {
+				text: "Homepage"
+			}
+		},
+		{
+			name: "Overview",
+			fieldName: "Overview",
+			width: "300",
+			header: {
+				text: "Overview"
+			}
+		},
+		{
+			name: "Popularity",
+			fieldName: "Popularity",
+			width: "100",
+			header: {
+				text: "Popularity"
+			}
+		},
+		{
+			name: "ReleaseDate",
+			fieldName: "ReleaseDate",
+			width: "100",
+			header: {
+				text: "Release Date"
+			}
+		},
+		{
+			name: "Revenue",
+			fieldName: "Revenue",
+			width: "100",
+			header: {
+				text: "Revenue"
+			}
+		},
+		{
+			name: "Runtime",
+			fieldName: "Runtime",
+			width: "100",
+			header: {
+				text: "Runtime"
+			}
+		},
+		{
+			name: "MovieStatus",
+			fieldName: "MovieStatus",
+			width: "100",
+			header: {
+				text: "Movie Status"
+			}
+		},
+		{
+			name: "Tagline",
+			fieldName: "Tagline",
+			width: "200",
+			header: {
+				text: "Tagline"
+			}
+		},
+		{
+			name: "VotesAvg",
+			fieldName: "VotesAvg",
+			width: "100",
+			header: {
+				text: "Votes Average"
+			}
+		},
+		{
+			name: "VotesCount",
+			fieldName: "VotesCount",
+			width: "100",
+			header: {
+				text: "Votes Count"
+			}
+		},
+		{
+			"name": "CompanyId",
+			"fieldName": "CompanyId",
+			"width": "150",
+			"sortable": false,
+			"lookupDisplay": true,
+			"editButtonVisibility": "always",
+			values: listCountryId,
+			labels: listCountry,
+			"editor": {
+				"type": "dropdown"
+			},
+			"header": {
+				"text": "Company",
+			}
+		},
+		{
+			"name": "GenderId",
+			"fieldName": "GenderId",
+			"width": "150",
+			"sortable": false,
+			"lookupDisplay": true,
+			"editButtonVisibility": "always",
+			values: listCountryId,
+			labels: listCountry,
+			"editor": {
+				"type": "dropdown"
+			},
+			"header": {
+				"text": "Gender",
+			}
+		},
+		{
+			name: "PersonId",
+			fieldName: "PersonId",
+			width: "60",
+			header: {
+				text: "Person ID"
+			}
+		},
+		{
+			name: "CharacterName",
+			fieldName: "CharacterName",
+			width: "100",
+			header: {
+				text: "Character Name"
+			}
+		},
+		{
+			name: "CastOrder",
+			fieldName: "CastOrder",
+			width: "60",
+			header: {
+				text: "Cast Order"
+			}
+		},
+		{
+			name: "Gender",
+			fieldName: "Gender",
+			width: "60",
+			header: {
+				text: "Gender"
+			}
+		},
+		{
+			name: "PersonName",
+			fieldName: "PersonName",
+			width: "200",
+			header: {
+				text: "Person Name"
+			}
+		},
+		{
+			name: "DepartmentId",
+			fieldName: "DepartmentId",
+			width: "60",
+			header: {
+				text: "Department ID"
+			}
+		},
+		{
+			name: "Job",
+			fieldName: "Job",
+			width: "100",
+			header: {
+				text: "Job"
+			}
+		},
+		{
+			name: "DepartmentName",
+			fieldName: "DepartmentName",
+			width: "200",
+			header: {
+				text: "Department Name"
+			}
+		},
+		{
+			name: "GenreId",
+			fieldName: "GenreId",
+			width: "60",
+			header: {
+				text: "Genre ID"
+			}
+		},
+		{
+			name: "GenreName",
+			fieldName: "GenreName",
+			width: "100",
+			header: {
+				text: "Genre Name"
+			}
+		},
+		{
+			name: "KeywordId",
+			fieldName: "KeywordId",
+			width: "60",
+			header: {
+				text: "Keyword ID"
+			}
+		},
+		{
+			name: "KeywordName",
+			fieldName: "KeywordName",
+			width: "100",
+			header: {
+				text: "Keyword Name"
+			}
+		}
+	];
 
-        fillJsonData();
-    }
 
-    function start() {
-        createGrid("realgrid");
-    }
+	var httpRequest;
 
-    // $.document.ready(start);
-    window.onload = start;
-    // domloaded를 대신 써도 됩니다.
+	function setProvider(filename) {
+		
+	}
 
-    window.onunload = function () {
-        dataProvider.clearRows();
+	function loadData() {
+		if (httpRequest.readyState === XMLHttpRequest.DONE) {
+			if (httpRequest.status === 200) {
+				var data = JSON.parse(httpRequest.responseText);
+				dataProvider.setRows(data);
+				gridView.setFocus();
+			}
+		}
+	}
 
-        gridView.destroy();
-        dataProvider.destroy();
+	var dataProvider, gridContainer, grid;
 
-        gridView = null;
-        dataProvider = null;
-    }
+	function createGrid(container) {
+		RealGrid.setLocale('en');
+		dataProvider = new RealGrid.LocalDataProvider();
+		gridView = new RealGrid.GridView(container);
 
-    function fillJsonData() {
-        var data = [
-            {
-                KorName: "박영호",
-                Gender: "남",
-                Age: "71",
-                Phone: "(025)6563-2802",
-                ProductId: "198160731-00008",
-                KorCountry: "모잠비크",
-                OrderDate: "2021-01-16",
-                CardNumber: "5587-2139-9692-3644",
-                Monetary: "EUR",
-                StartDate: "2018-02-25",
-                EndDate: "2021-08-12",
-                ToMonth: "23",
-                Month: "41",
-                Year: "3",
-                InterestRate: "0.15",
-                SaveCost: "51000",
-                SaveMaturity: "14950650",
-                CurrentSave: "9304950",
-                Rating: "5",
-                BusinessProficiency: "59",
-                Address: "서울특별시 강서구 공항동 45-89"
-            },
-            {
-                KorName: "조일형",
-                Gender: "남",
-                Age: "62",
-                Phone: "(093)8809-8696",
-                ProductId: "571215854-00001",
-                KorCountry: "캐나다",
-                OrderDate: "2019-07-29",
-                CardNumber: "5348-5093-3750-0623",
-                Monetary: "USD",
-                StartDate: "2019-10-21",
-                EndDate: "2022-12-11",
-                ToMonth: "3",
-                Month: "37",
-                Year: "3",
-                InterestRate: "0.38",
-                SaveCost: "14000",
-                SaveMaturity: "7801080",
-                CurrentSave: "1108520",
-                Rating: "3",
-                BusinessProficiency: "53",
-                Address: "서울특별시 중구 봉래동2가 122"
-            }
-        ];
+		gridView.setDataSource(dataProvider);
+		dataProvider.setFields(MoiveFieldsDefination);
+		gridView.setColumns(columns);
 
-        dataProvider.fillJsonData(data, { fillMode: "set" });
-    }
+		gridView.displayOptions.emptyMessage = "There is no data to display.";
+		gridView.displayOptions.rowHeight = 36;
+		gridView.header.height = 40;
+		gridView.footer.height = 40;
+		gridView.stateBar.width = 16;
+		gridView.editOptions.insertable = true;
+		gridView.editOptions.appendable = true;
+		gridView.editOptions.updatable = true;
 
-    function insertData() {
-        var data = [
-            {
-                KorName: "김덕중",
-                Gender: "여",
-                Age: "53",
-                Phone: "(064)5483-6874",
-                ProductId: "149115669-00009",
-                KorCountry: "캐나다",
-                OrderDate: "2020-03-08",
-                CardNumber: "5121-9931-3555-9853",
-                Monetary: "HKD",
-                StartDate: "2018-12-30",
-                EndDate: "2022-01-16",
-                ToMonth: "13",
-                Month: "36",
-                Year: "3",
-                InterestRate: "0.32",
-                SaveCost: "112000",
-                SaveMaturity: "50480640",
-                CurrentSave: "20805120",
-                Rating: "3",
-                BusinessProficiency: "14",
-                Address: "서울특별시 양천구 신월동 115-15"
-            },
-            {
-                KorName: "국영석",
-                Gender: "남",
-                Age: "63",
-                Phone: "(044)7055-3032",
-                ProductId: "738027655-00005",
-                KorCountry: "부베 섬",
-                OrderDate: "2020-05-01",
-                CardNumber: "5571-3720-2975-7540",
-                Monetary: "AUD",
-                StartDate: "2019-08-15",
-                EndDate: "2021-12-23",
-                ToMonth: "5",
-                Month: "28",
-                Year: "2",
-                InterestRate: "0.2",
-                SaveCost: "84000",
-                SaveMaturity: "15523200",
-                CurrentSave: "4704000",
-                Rating: "3",
-                BusinessProficiency: "14",
-                Address: "서울특별시 강남구 역삼동 707-9"
-            }
-        ];
+		gridView.sortMode = "explicit";
+		gridView.filterMode = "explicit";
 
-        dataProvider.fillJsonData(data, {
-            fillMode: "insert",
-            start: 1,
-            count: 1,
-            fillPos: 0
-        });
-    }
+		dataProvider.onRowInserting = function (provider, row) {
+			console.log("1. onRowInserting이벤트 row = " + row);
+		};
+		dataProvider.onRowInserted = function (provider, row) {
+			console.log("2. onRowInserted이벤트 row = " + row);
+		};
+		dataProvider.onRowCountChanged = function (provider, count) {
+			console.log("3. onRowCountChanged이벤트 count = " + count);
+		};
 
+		setProvider("simple_data.json");
+	}
+
+	function start() {
+		createGrid("realgrid");
+	}
+
+	// $.document.ready(start);
+	window.onload = start;
+	// domloaded를 대신 써도 됩니다.
+
+	window.onunload = function () {
+		dataProvider.clearRows();
+
+		gridView.destroy();
+		dataProvider.destroy();
+
+		gridView = null;
+		dataProvider = null;
+	}
+
+	function insertEmptyRow() {
+		var row = gridView.getCurrent().dataRow;
+		dataProvider.insertRow(row, {});
+		//gridView.showEditor(); //바로 편집기를 표시하고 싶을때
+	}
+
+	function insertRow() {
+		var row = gridView.getCurrent().dataRow;
+		var values = { Title: "title", Overview: "overview" };
+		dataProvider.insertRow(row, values);
+		gridView.showEditor(); //바로 편집기를 표시하고 싶을때
+	}
+
+	function addEmptyRow() {
+		var dataRow = dataProvider.addRow({});
+		gridView.setCurrent({ dataRow: dataRow }); //추가된 행으로 포커스 이동
+		//setTimeout(function(){gridView.showEditor();}, 10); //바로 편집기를 표시하고 싶을때
+	}
+
+	function addRow() {
+		var values = { Title: "title", Overview: "overview" };
+		var dataRow = dataProvider.addRow(values);
+		gridView.setCurrent({ dataRow: dataRow }); //추가된 행으로 포커스 이동
+		//setTimeout(function(){gridView.showEditor();}, 10); //바로 편집기를 표시하고 싶을때
+	}
+
+	function gridSearch() {
+		var value = document.getElementById('txtSearch').value;
+		var fields = dataProvider.getOrgFieldNames();
+		var startIndex = gridView.getCurrent().itemIndex;
+		var startFieldIndex = fields.indexOf(gridView.getCurrent().fieldName) + 1;
+		var wrap = document.querySelector('input[name="wrap"]:checked').value;
+		var caseSensitive = document.querySelector('input[name="case"]:checked').value;
+		var partialMatch = document.querySelector('input[name="partial"]:checked').value
+
+		var options = {
+			fields: fields,
+			value: value,
+			startIndex: startIndex,
+			startFieldIndex: startFieldIndex,
+			wrap: wrap,
+			caseSensitive: caseSensitive,
+			partialMatch: partialMatch
+		};
+
+		var index = gridView.searchCell(options);
+		gridView.setCurrent(index);
+	}
+
+	function saveChange(){
+
+	}
 
 </script>
 
 <div class="datagrid-container">
-    <div class="datagrid-table" id="realgrid"></div>
+	<div class="toolbar">
+
+		<div class="search-group">
+			<div class="toolbar-group">
+				<div class="toolbar-seach-group">
+					<input type="text"
+						   name="txtSearch"
+						   id="txtSearch"
+						   value=""
+						   data-theme="a" 
+
+						   />&nbsp;&nbsp;
+						   
+					<button onclick="gridSearch()">Search</button>
+				</div>
+			</div>
+
+			<div class="toolbar-group">
+				<div class="toolbar-group-title">Set case sensitivity</div>
+				<label class="selection-item">
+					<input type="radio" name="case" value="case" />Case sensitive
+				</label>
+				<label class="selection-item">
+					<input type="radio" name="case" value="" checked="checked" />Do not differentiate
+					No
+				</label>
+			</div>
+
+			<div class="toolbar-group">
+				<div class="toolbar-group-title">Set partial match</div>
+				<label class="selection-item">
+					<input type="radio" name="partial" value="partial" checked="checked" />Partial match
+				</label>
+				<label class="selection-item">
+					<input type="radio" name="partial" value="" />Match all
+				</label>
+			</div>
+
+			<div class="toolbar-group">
+				<div class="toolbar-group-title">Search again from the beginning</div>
+				<label class="selection-item">
+					<input type="radio"
+						   name="wrap"
+						   value="wrap"
+						   checked="checked" />Search again from the beginning
+				</label>
+				<label class="selection-item">
+					<input type="radio" name="wrap" value="" />End search
+				</label>
+			</div>
+
+		</div>
+		
+		<div class="grid-function">
+			<div class="toolbar-group">
+				<button class="grid-btn" onclick="insertEmptyRow()">Insert Empty Row</button>
+				<button class="grid-btn" onclick="insertRow()">Insert blank row (enter dictionary data)</button>
+				<button class="grid-btn" onclick="addEmptyRow()">Add empty row</button>
+				<button class="grid-btn" onclick="addRow()">Add row (pre-data input)</button>
+				<button class="grid-btn" onclick="saveChange()">Save</button>
+			</div>
+		</div>
+		
+
+		
+	</div>
+	
+	<div class="datagrid-table" id="realgrid"></div>
 </div>

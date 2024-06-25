@@ -29,6 +29,7 @@ if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Home/Error");
 }
+
 app.UseStaticFiles();
 
 app.UseRouting();
@@ -38,6 +39,6 @@ app.UseAuthorization();
 
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Trending}/{action=Index}/{id?}");
+    pattern: "{controller=admin}/{action=Index}/{id?}");
 
 app.Run();

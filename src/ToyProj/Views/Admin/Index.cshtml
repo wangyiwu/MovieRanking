@@ -1,11 +1,11 @@
 ﻿@model MovieAdminViewModel
-
 @{
 	Layout = null;
 }
 
 @{
 	
+
 
 }
 
@@ -18,8 +18,13 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 
 	<link href="~/styles/style.css" rel="stylesheet" />
+	<link href="~/styles/Admin.css" rel="stylesheet" />
 
 	<script src="~/lib/jquery/dist/jquery.js"></script>
+
+	<script src="~/lib/realgrid.2.8.2/realgrid.2.8.2.min.js"></script>
+	<link href="~/lib/realgrid.2.8.2/realgrid-style.css" rel="stylesheet" />
+	<script src="~/lib/realgrid.2.8.2/libs/jszip.min.js"></script>
 
 </head>
 
@@ -49,7 +54,7 @@
 
 		<div class="content">
 				
-			<partial name="_MovieList" />
+			<partial name="_MovieList" model="@Model.ListMovie"/>
 
 		</div>
 	</div>

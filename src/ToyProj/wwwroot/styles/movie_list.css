@@ -73,8 +73,8 @@
 .datagrid-table{
     background-color:white;
     opacity:0.8;
-    min-width:80vw;
-    min-height:80vh;
+    max-width:70vw;
+    min-height:60vh;
     margin:30px;
     border-radius:20px;
     padding:30px;
@@ -84,4 +84,7 @@
     display:flex;
     justify-content:center;
     align-content:center;
+    flex-direction:column;
+    
 }
+

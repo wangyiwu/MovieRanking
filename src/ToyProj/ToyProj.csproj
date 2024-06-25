@@ -7,6 +7,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <_ContentIncludedByDefault Remove="wwwroot\data\simple_data.json" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\ToyProj.Abstractions\ToyProj.Abstractions.csproj" />
     <ProjectReference Include="..\ToyProj.Common\ToyProj.Common.csproj" />
     <ProjectReference Include="..\ToyProj.Data\ToyProj.Data.csproj" />
