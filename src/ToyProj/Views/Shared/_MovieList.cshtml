@@ -7,7 +7,6 @@
 @inject DatabaseContext db
 <link href="~/styles/movie_list.css" rel="stylesheet" />
 
-
 @{
 	/// get list Country
 	var listCountry = await countryRepository.GetCountry();
@@ -25,7 +24,21 @@
 	var listGender = db.Gender.Select(x => x.GenderName).ToArray();
 	var listGenderId = db.Gender.Select(x => x.GenderId).ToArray();
 
-	// get list person
+	// get list company
+
+	var listCompany = db.ProductionCompany.Select(x => x.CompanyName).ToArray();
+	var listCompanyId = db.ProductionCompany.Select(x => x.CompanyId).ToArray();
+
+	// get list department
+
+	var listDepartment = db.Department.Select(x => x.DepartmentName).ToArray();
+	var listDepartmentId = db.Department.Select(x => x.DepartmentId).ToArray();
+
+	var listGenre = db.Genre.Select(x => x.GenreName).ToArray();
+	var listGenreId = db.Genre.Select(x => x.GenreId).ToArray();
+
+	var listKeyword = db.Keyword.Select(x => x.KeywordName).ToArray();
+	var listKeywordId = db.Keyword.Select(x => x.KeywordId).ToArray();
 
 
 }
@@ -42,19 +55,31 @@
 	const listCountry = @Html.Raw(JsonSerializer.Serialize(listCountryName));
 	const listCountryId = @Html.Raw(JsonSerializer.Serialize(listCountryId));
 
+	const listLanguague = @Html.Raw(JsonSerializer.Serialize(listLanguague));
+	const listLanguagueId = @Html.Raw(JsonSerializer.Serialize(listCountryId));
+
+	const listCompany = @Html.Raw(JsonSerializer.Serialize(listCompany));
+	const listCompanyId = @Html.Raw(JsonSerializer.Serialize(listCompanyId));
+
+	const listDepartment = @Html.Raw(JsonSerializer.Serialize(listDepartment));
+	const listDepartmentId = @Html.Raw(JsonSerializer.Serialize(listDepartmentId));
+
+	const listGenre = @Html.Raw(JsonSerializer.Serialize(listGenre));
+	const listGenreId = @Html.Raw(JsonSerializer.Serialize(listGenderId));
+
+	const listKeyword = @Html.Raw(JsonSerializer.Serialize(listKeyword));
+	const listKeywordId = @Html.Raw(JsonSerializer.Serialize(listKeywordId));
+
+
+	var dataSource = @Html.Raw(JsonSerializer.Serialize(Model.ToArray()));
+
+	console.log(dataSource);
+
 	var realGrid2Lic = 'upVcPE+wPOmtLjqyBIh9RkM/nBOseBrflwxYpzGZyYm9cY8amGDkiHqyYT2U1Yh3Dufv8SUhNy6uxbhPga83Fw==';
 
 	const MoiveFieldsDefination = [
 		{
 			fieldName: "CountryId",
-			dataType: "text"
-		},
-		{
-			fieldName: "CountryIsoCode",
-			dataType: "text"
-		},
-		{
-			fieldName: "CountryName",
 			dataType: "text"
 		},
 		{
@@ -65,18 +90,7 @@
 			fieldName: "LanguageId",
 			dataType: "text"
 		},
-		{
-			fieldName: "LanguageRoleId",
-			dataType: "text"
-		},
-		{
-			fieldName: "RoleId",
-			dataType: "text"
-		},
-		{
-			fieldName: "LanguageRole",
-			dataType: "text"
-		},
+		
 		{
 			fieldName: "Title",
 			dataType: "text"
@@ -119,54 +133,19 @@
 		},
 		{
 			fieldName: "VotesAvg",
-			dataType: "text"
+			dataType: "number"
 		},
 		{
 			fieldName: "VotesCount",
-			dataType: "text"
+			dataType: "number"
 		},
 		{
 			fieldName: "CompanyId",
 			dataType: "text"
 		},
-		{
-			fieldName: "CompanyName",
-			dataType: "text"
-		},
-		{
-			fieldName: "GenderId",
-			dataType: "text"
-		},
-		{
-			fieldName: "PersonId",
-			dataType: "text"
-		},
-		{
-			fieldName: "CharacterName",
-			dataType: "text"
-		},
-		{
-			fieldName: "CastOrder",
-			dataType: "text"
-		},
-		{
-			fieldName: "Gender",
-			dataType: "text"
-		},
-		{
-			fieldName: "PersonName",
-			dataType: "text"
-		},
+
 		{
 			fieldName: "DepartmentId",
-			dataType: "text"
-		},
-		{
-			fieldName: "Job",
-			dataType: "text"
-		},
-		{
-			fieldName: "DepartmentName",
 			dataType: "text"
 		},
 		{
@@ -174,21 +153,21 @@
 			dataType: "text"
 		},
 		{
-			fieldName: "GenreName",
-			dataType: "text"
-		},
-		{
-			fieldName: "KeywordId",
-			dataType: "text"
-		},
-		{
-			fieldName: "KeywordName",
-			dataType: "text"
+			fieldName: "KeywordId"
 		}
 	];
 
 
 	var columns = [
+		{
+			name: "MovieId",
+			fieldName: "MovieId",
+			width: "200",
+			header: {
+				text: "MovieId"
+			},
+			visible: false
+		},
 		{
 			"name": "CountryId",
 			"fieldName": "CountryId",
@@ -212,45 +191,13 @@
 			"sortable": false,
 			"lookupDisplay": true,
 			"editButtonVisibility": "always",
-			values: listCountryId,
-			labels: listCountry,
+			values: listLanguagueId,
+			labels: listLanguague,
 			"editor": {
 				"type": "dropdown"
 			},
 			"header": {
 				"text": "Languague",
-			}
-		},
-		{
-			"name": "LanguageRoleId",
-			"fieldName": "LanguageRoleId",
-			"width": "150",
-			"sortable": false,
-			"lookupDisplay": true,
-			"editButtonVisibility": "always",
-			values: listCountryId,
-			labels: listCountry,
-			"editor": {
-				"type": "dropdown"
-			},
-			"header": {
-				"text": "Languague Role",
-			}
-		},
-		{
-			"name": "RoleId",
-			"fieldName": "RoleId",
-			"width": "150",
-			"sortable": false,
-			"lookupDisplay": true,
-			"editButtonVisibility": "always",
-			values: listCountryId,
-			labels: listCountry,
-			"editor": {
-				"type": "dropdown"
-			},
-			"header": {
-				"text": "Role",
 			}
 		},
 		{
@@ -261,6 +208,7 @@
 				text: "Title"
 			}
 		},
+		
 		{
 			name: "Budget",
 			fieldName: "Budget",
@@ -356,8 +304,8 @@
 			"sortable": false,
 			"lookupDisplay": true,
 			"editButtonVisibility": "always",
-			values: listCountryId,
-			labels: listCountry,
+			values: listCompanyId,
+			labels: listCompany,
 			"editor": {
 				"type": "dropdown"
 			},
@@ -366,115 +314,52 @@
 			}
 		},
 		{
-			"name": "GenderId",
-			"fieldName": "GenderId",
+			"name": "DepartmentId",
+			"fieldName": "DepartmentId",
 			"width": "150",
 			"sortable": false,
 			"lookupDisplay": true,
 			"editButtonVisibility": "always",
-			values: listCountryId,
-			labels: listCountry,
+			values: listDepartmentId,
+			labels: listDepartment,
 			"editor": {
 				"type": "dropdown"
 			},
 			"header": {
-				"text": "Gender",
+				"text": "Department",
 			}
 		},
 		{
-			name: "PersonId",
-			fieldName: "PersonId",
-			width: "60",
-			header: {
-				text: "Person ID"
+			"name": "GenreId",
+			"fieldName": "GenreId",
+			"width": "150",
+			"sortable": false,
+			"lookupDisplay": true,
+			"editButtonVisibility": "always",
+			values: listGenreId,
+			labels: listGenre,
+			"editor": {
+				"type": "dropdown"
+			},
+			"header": {
+				"text": "Genre",
 			}
 		},
+		
 		{
-			name: "CharacterName",
-			fieldName: "CharacterName",
-			width: "100",
-			header: {
-				text: "Character Name"
-			}
-		},
-		{
-			name: "CastOrder",
-			fieldName: "CastOrder",
-			width: "60",
-			header: {
-				text: "Cast Order"
-			}
-		},
-		{
-			name: "Gender",
-			fieldName: "Gender",
-			width: "60",
-			header: {
-				text: "Gender"
-			}
-		},
-		{
-			name: "PersonName",
-			fieldName: "PersonName",
-			width: "200",
-			header: {
-				text: "Person Name"
-			}
-		},
-		{
-			name: "DepartmentId",
-			fieldName: "DepartmentId",
-			width: "60",
-			header: {
-				text: "Department ID"
-			}
-		},
-		{
-			name: "Job",
-			fieldName: "Job",
-			width: "100",
-			header: {
-				text: "Job"
-			}
-		},
-		{
-			name: "DepartmentName",
-			fieldName: "DepartmentName",
-			width: "200",
-			header: {
-				text: "Department Name"
-			}
-		},
-		{
-			name: "GenreId",
-			fieldName: "GenreId",
-			width: "60",
-			header: {
-				text: "Genre ID"
-			}
-		},
-		{
-			name: "GenreName",
-			fieldName: "GenreName",
-			width: "100",
-			header: {
-				text: "Genre Name"
-			}
-		},
-		{
-			name: "KeywordId",
-			fieldName: "KeywordId",
-			width: "60",
-			header: {
-				text: "Keyword ID"
-			}
-		},
-		{
-			name: "KeywordName",
-			fieldName: "KeywordName",
-			width: "100",
-			header: {
-				text: "Keyword Name"
+			"name": "KeywordId",
+			"fieldName": "KeywordId",
+			"width": "150",
+			"sortable": false,
+			"lookupDisplay": true,
+			"editButtonVisibility": "always",
+			values: listKeywordId,
+			labels: listKeyword,
+			"editor": {
+				"type": "checklist"
+			},
+			"header": {
+				"text": "Keyword",
 			}
 		}
 	];
@@ -529,7 +414,7 @@
 			console.log("3. onRowCountChanged이벤트 count = " + count);
 		};
 
-		setProvider("simple_data.json");
+		dataProvider.setRows(dataSource);
 	}
 
 	function start() {
@@ -601,6 +486,10 @@
 
 	function saveChange(){
 
+		var current = gridView.getCurrent();
+
+		var jsonData = dataProvider.getJsonRow(current.dataRow);
+
 	}
 
 </script>
@@ -661,11 +550,12 @@
 		
 		<div class="grid-function">
 			<div class="toolbar-group">
-				<button class="grid-btn" onclick="insertEmptyRow()">Insert Empty Row</button>
-				<button class="grid-btn" onclick="insertRow()">Insert blank row (enter dictionary data)</button>
+				
 				<button class="grid-btn" onclick="addEmptyRow()">Add empty row</button>
-				<button class="grid-btn" onclick="addRow()">Add row (pre-data input)</button>
+				
 				<button class="grid-btn" onclick="saveChange()">Save</button>
+
+				<button class="grid-btn" onclick="saveChange()">Cancel</button>
 			</div>
 		</div>
 		

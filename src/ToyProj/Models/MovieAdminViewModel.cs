@@ -7,6 +7,7 @@
 
 	public class MovieAdminItem
 	{
+		public int MovieId { get; set; }
 		public string Title { get; set; }
 		public int Budget { get; set; }
 		public string Homepage { get; set; }
@@ -26,6 +27,7 @@
 		public int GenreId { get; set; }
 		public int LanguagueId { get; set; }
 		public int CompanyId { get; set; }
+		public int DepartmentId { get; set; }
 		public List<MovieCastModel> MovieCastModels { get; set; }
 	}
 

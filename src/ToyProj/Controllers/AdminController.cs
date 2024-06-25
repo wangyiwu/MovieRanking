@@ -39,9 +39,25 @@ namespace ToyProj.Controllers
             
                 new MovieAdminItem()
                 {
+                    MovieId = x.MovieId,
                     Title = x.Title,
                     MovieStatus = x.MovieStatus,
                     CompanyId = x.CompanyId,    
+                    CountryId = x.CountryId,
+                    Overview = x.Overview,
+                    Homepage = x.Homepage,
+                    Budget = x.Budget,
+                    Popularity = x.Popularity,
+                    ReleaseDate = x.ReleaseDate,
+                    Revenue = x.Revenue,
+                    VotesAvg = x.VotesAvg,
+                    VotesCount = x.VotesCount,
+                    LanguagueId = x.LanguageId,
+                    Runtime = x.Runtime,
+                    Tagline = x.Tagline,
+                    GenreId = x.GenreId,
+                    DepartmentId = 1,
+                    KeywordId = x.ListKeywordId.Split(',').Select(x => int.Parse(x)).ToList(),
                     MovieCastModels = movieCastList.Where(a => a.MovieId == x.MovieId).Select(x => new MovieCastModel() {
                         
                     }).ToList()
