@@ -1,8 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using ToyProj.Models;
 using ToyProj.Services.Genre.Repository;
-using ToyProj.Services.Movie.Models;
-using ToyProj.Services.Movie.Repository;
+using ToyProj.Services.Movies.Models;
+using ToyProj.Services.Movies.Repository;
 
 namespace ToyProj.Controllers
 {
@@ -36,10 +36,23 @@ namespace ToyProj.Controllers
 
             var movieRankingData = await movieRepository.GetMovieRankings(requestModel);
 
-            model.Items = movieRankingData.ToList();
+            model.Items = DistinctBy(movieRankingData, x => x.MovieId).ToList();
 
             return View(model);
         }
+
+		public static IEnumerable<TSource> DistinctBy<TSource, TKey>
+	(IEnumerable<TSource> source, Func<TSource, TKey> keySelector)
+		{
+			HashSet<TKey> seenKeys = new HashSet<TKey>();
+			foreach (TSource element in source)
+			{
+				if (seenKeys.Add(keySelector(element)))
+				{
+					yield return element;
+				}
+			}
+		}
 
 		[HttpGet]
 		public RedirectToActionResult Redirect(string toAction, string backQueryParam)

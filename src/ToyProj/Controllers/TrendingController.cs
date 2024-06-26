@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using ToyProj.Models;
 using ToyProj.Services.Company.Repository;
-using ToyProj.Services.Movie.Repository;
+using ToyProj.Services.Movies.Repository;
 
 namespace ToyProj.Controllers
 {

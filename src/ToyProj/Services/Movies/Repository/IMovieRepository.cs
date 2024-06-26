@@ -4,9 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using ToyProj.Abstractions.ResultData;
-using ToyProj.Services.Movie.Models;
+using ToyProj.Data.Data;
+using ToyProj.Services.Movies.Models;
 
-namespace ToyProj.Services.Movie.Repository
+namespace ToyProj.Services.Movies.Repository
 {
     public interface IMovieRepository
     {
@@ -14,6 +15,11 @@ namespace ToyProj.Services.Movie.Repository
 		public Task<MovieRankingData> GetMovieRanking(int movieId);
 		public Task<List<int>> GetYears();
 		public Task<List<MovieAdminData>> MovieAdminData(MovieAdminRequestModel request);
+
+		public Task<int> DeleteAsync(int movieId);
+
+		public Task<bool> CreateAsync(CreateMovieRequestModel movie);
+		public Task<bool> UpdateAsync(UpdateMovieRequestModel movie);
 
 
 	}

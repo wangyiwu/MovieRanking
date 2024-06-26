@@ -1,23 +1,26 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using ToyProj.Abstractions.ResultData;
 using ToyProj.Data;
-using ToyProj.Services.Movie.Models;
+using ToyProj.Data.Data;
+using ToyProj.Services.Movies.Models;
 
-namespace ToyProj.Services.Movie.Repository
+namespace ToyProj.Services.Movies.Repository
 {
-    public class MovieRepository : IMovieRepository
-    {
-        private DatabaseContext db;
+	public class MovieRepository : IMovieRepository
+	{
+		private DatabaseContext db;
 
-        public MovieRepository(DatabaseContext db)
-        {
-            this.db = db;
-        }
+		public MovieRepository(DatabaseContext db)
+		{
+			this.db = db;
+		}
 
 		private const string baseRankingQuery = $@"SELECT ##LIMIT m.MovieId, m.Title as Title, c.CountryIsoCode as CountryCode, Year(m.ReleaseDate) as ReleaseYear, m.Thumbnail, MoviePersonCast.S1PersonName as MainCastName, CastList.CastList, MoviePersonCast.S1CastOrder as MainCastOrder, m.VotesAvg, m.VotesCount, g.GenreName, 
                                 m.ReleaseDate as ReleaseDate
@@ -67,21 +70,21 @@ namespace ToyProj.Services.Movie.Repository
 		}
 
 		public async Task<List<MovieRankingData>> GetMovieRankings(MovieRankingRequestModel query)
-        {
-            string orderBy = "order by " +(string.IsNullOrEmpty(query.OrderBy) ? "ReleaseYear" : query.OrderBy);
+		{
+			string orderBy = "order by " + (string.IsNullOrEmpty(query.OrderBy) ? "ReleaseYear" : query.OrderBy);
 
-            string where = "";
+			string where = "";
 
-            if (!string.IsNullOrEmpty(query.GenreName))
-            {
-                where = $@"where g.GenreName = '{query.GenreName}'";
-            }
+			if (!string.IsNullOrEmpty(query.GenreName))
+			{
+				where = $@"where g.GenreName = '{query.GenreName}'";
+			}
 
 			if (!string.IsNullOrEmpty(where) && query.Year > 0)
 			{
 				where += $@" and Year(m.ReleaseDate) = {query.Year}";
 			}
-			else if(query.Year > 0)
+			else if (query.Year > 0)
 			{
 				where += $@"where Year(m.ReleaseDate) = {query.Year}";
 			}
@@ -93,8 +96,8 @@ namespace ToyProj.Services.Movie.Repository
 
 			var result = await db.Database.SqlQueryRaw<MovieRankingData>(querySql).ToListAsync();
 
-            return result;
-        }
+			return result;
+		}
 
 		public async Task<List<MovieAdminData>> MovieAdminData(MovieAdminRequestModel request)
 		{
@@ -155,7 +158,7 @@ namespace ToyProj.Services.Movie.Repository
 			string where = string.Empty;
 			string orderby = string.Empty;
 
-			if(request.Count > 0)
+			if (request.Count > 0)
 			{
 				limit = $@" top({request.Count}) ";
 				queryBase = queryBase.Replace("##LIMIT", limit);
@@ -170,10 +173,146 @@ namespace ToyProj.Services.Movie.Repository
 			var result = await db.Database.SqlQueryRaw<MovieAdminData>(queryBase).ToListAsync();
 
 			return result;
-
 		}
 
+		public async Task<int> DeleteAsync(int movieId)
+		{
+			FormattableString sql = FormattableStringFactory.Create(@"
+				BEGIN TRANSACTION;
+				DELETE FROM MovieCast WHERE MovieId = {0};
+				DELETE FROM MovieCrew WHERE MovieId = {0};
+				DELETE FROM MovieGenre WHERE MovieId = {0};
+				DELETE FROM MovieKeywords WHERE MovieId = {0};
+				DELETE FROM MovieLanguages WHERE MovieId = {0};
+				DELETE FROM MovieCompany WHERE MovieId = {0};
+				DELETE FROM ProductionCountry WHERE MovieId = {0};
+				DELETE FROM Movie WHERE MovieId = {0};
+				COMMIT TRANSACTION;
+				", movieId);
+
+
+			var result = await db.Database.ExecuteSqlAsync(sql);
+
+			return result;
+		}
+
+
+		public async Task<bool> CreateAsync(CreateMovieRequestModel movieDto)
+		{
+
+			var movie = new Movie()
+			{
+				Title = movieDto.Title,
+				Budget = movieDto.Budget,
+				Overview = movieDto.Overview,
+				Homepage = movieDto.Homepage,
+				Popularity = movieDto.Popularity,
+				ReleaseDate = movieDto.ReleaseDate,
+				Revenue	= movieDto.Revenue,
+				Runtime = movieDto.Runtime,
+				MovieStatus = movieDto.MovieStatus,
+				Tagline = movieDto.Tagline,
+				VotesAvg = movieDto.VotesAvg,
+				VotesCount = movieDto.VotesCount,
+				Thumbnail = "https://google.com"
+			};
+
+			var movieResult = await db.Movie.AddAsync(movie);
+			await db.SaveChangesAsync();
+
+
+			if (movieResult != null)
+			{
+				var movieId = movieResult.Entity.MovieId;
+
+				FormattableString sqlScript = $@"
+
+					BEGIN TRANSACTION;
+
+					-- Insert into MovieCast
+					INSERT INTO MovieCast (MovieId, PersonId, GenderId, CharacterName, CastOrder)
+					VALUES ({movieId}, 1, 1, 'Character 1', 1),
+						   ({movieId}, 2, 1, 'Character 2', 2),
+						   ({movieId}, 3, 2, 'Character 3', 3),
+						   ({movieId}, 4, 1, 'Character 4', 4),
+						   ({movieId}, 5, 2, 'Character 5', 5),
+						   ({movieId}, 6, 1, 'Character 6', 6),
+						   ({movieId}, 7, 2, 'Character 7', 7),
+						   ({movieId}, 8, 1, 'Character 8', 8),
+						   ({movieId}, 9, 1, 'Character 9', 9),
+						   ({movieId}, 10, 2, 'Character 10', 10);
+
+					-- Insert into MovieCrew
+					INSERT INTO MovieCrew (MovieId, PersonId, DepartmentId, Job)
+					VALUES ({movieId}, 1, 1, 'Director'),
+						   ({movieId}, 2, 2, 'Producer');
+					
+					-- Insert into MovieGenre
+					INSERT INTO MovieGenre (MovieId, GenreId)
+					VALUES ({movieId}, {movieDto.GenreId});
+
+					-- Insert into MovieKeywords
+					INSERT INTO MovieKeywords (MovieId, KeywordId)
+					VALUES ({movieId}, 1),
+						   ({movieId}, 2),
+						   ({movieId}, 3);
+
+					-- Insert into MovieLanguages
+					INSERT INTO MovieLanguages (MovieId, LanguageId, LanguageRoleId)
+					VALUES ({movieId}, 1, 1),
+						   ({movieId}, 2, 1);
+
+					-- Insert into MovieCompany
+					INSERT INTO MovieCompany (MovieId, CompanyId)
+					VALUES ({movieId}, {movieDto.CompanyId});
+
+					-- Insert into ProductionCountry
+					INSERT INTO ProductionCountry (MovieId, CountryId)
+					VALUES ({movieId}, {movieDto.CompanyId});
+
+					COMMIT TRANSACTION;";
+
+				var result = await db.Database.ExecuteSqlAsync(sqlScript);
+
+				return true;
+			}
+
+			return false;
+		}
+
+		public async Task<bool> UpdateAsync(UpdateMovieRequestModel movieDto)
+		{
+			var existed = await db.Movie.FindAsync(movieDto.MovieId);
+
+			if(existed != null)
+			{
+				var movie = new Movie()
+				{
+					MovieId = movieDto.MovieId,
+					Title = movieDto.Title,
+					Budget = movieDto.Budget,
+					Overview = movieDto.Overview,
+					Homepage = movieDto.Homepage,
+					Popularity = movieDto.Popularity,
+					ReleaseDate = movieDto.ReleaseDate,
+					Revenue = movieDto.Revenue,
+					Runtime = movieDto.Runtime,
+					MovieStatus = movieDto.MovieStatus,
+					Tagline = movieDto.Tagline,
+					VotesAvg = movieDto.VotesAvg,
+					VotesCount = movieDto.VotesCount,
+					Thumbnail = "https://google.com"
+				};
+
+				var movieResult = db.Movie.Update(movie);
+				await db.SaveChangesAsync();
+				return true;
+			}
+			return false;
+		}
 	}
 
-
 }
+
+
+

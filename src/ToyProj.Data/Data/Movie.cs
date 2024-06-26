@@ -17,7 +17,7 @@ namespace ToyProj.Data.Data
         public string Homepage { get; set; }
         public string Overview { get; set; }
         public decimal Popularity { get; set; }
-
+        public string Thumbnail { get; set; }
         public DateTime ReleaseDate { get; set; }
         public int Revenue { get; set; }
         public int Runtime { get; set; }

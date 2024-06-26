@@ -2,6 +2,8 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore.Storage;
 using ToyProj.Data;
+using ToyProj.Services.Movies.Models;
+using ToyProj.Services.Movies.Repository;
 
 namespace ToyProj.Controllers
 {
@@ -10,24 +12,56 @@ namespace ToyProj.Controllers
 	public class MovieController : ControllerBase
 	{
 		private DatabaseContext _dbContext;
+		private IMovieRepository _movieRepository;
 
-		public MovieController(DatabaseContext context)
+		public MovieController(DatabaseContext context, IMovieRepository movieRepository)
 		{
 			_dbContext = context;
+			_movieRepository = movieRepository;
 		}
 
 
 		[HttpDelete("{id}")]
 		public async Task<IActionResult> Delete(int id)
 		{
-			var existed = await _dbContext.Movie.FindAsync(id);
-			if (existed != null) 
+			var result = await _movieRepository.DeleteAsync(id);
+			if (result > 0)
 			{
-				var query = "BEGIN TRANSACTION;\r\n\r\n-- Delete related records from MovieCast\r\nDELETE FROM MovieCast WHERE MovieId = {MOVIE_ID};\r\n\r\n-- Delete related records from MovieCrew\r\nDELETE FROM MovieCrew WHERE MovieId = {MOVIE_ID};\r\n\r\n-- Delete related records from MovieGenre\r\nDELETE FROM MovieGenre WHERE MovieId = {MOVIE_ID};\r\n\r\n-- Delete related records from MovieKeywords\r\nDELETE FROM MovieKeywords WHERE MovieId = {MOVIE_ID};\r\n\r\n-- Delete related records from MovieLanguages\r\nDELETE FROM MovieLanguages WHERE MovieId = {MOVIE_ID};\r\n\r\n-- Delete related records from MovieCompany\r\nDELETE FROM MovieCompany WHERE MovieId = {MOVIE_ID};\r\n\r\n-- Delete related records from ProductionCountry\r\nDELETE FROM ProductionCountry WHERE MovieId = {MOVIE_ID};\r\n\r\n-- Finally, delete the movie record\r\nDELETE FROM Movie WHERE MovieId = {MOVIE_ID};\r\n\r\nCOMMIT TRANSACTION;"
+				return Ok(result);
 			}
 
 			return NotFound();
 		}
+
+		[HttpPost]
+		public async Task<IActionResult> Create([FromBody] CreateMovieRequestModel model)
+		{
+			var result = await _movieRepository.CreateAsync(model);
+			if(result)
+			{
+				return Ok(result);
+			}
+			else
+			{
+				return BadRequest();
+			}
+		}
+
+
+		[HttpPut]
+		public async Task<IActionResult> Update([FromBody] UpdateMovieRequestModel model)
+		{
+			var result = await _movieRepository.UpdateAsync(model);
+			if (result)
+			{
+				return Ok(result);
+			}
+			else
+			{
+				return BadRequest();
+			}
+		}
+
 
 	}
 }

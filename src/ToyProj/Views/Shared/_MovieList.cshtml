@@ -44,9 +44,7 @@
 }
 
 <style>
-	#realgrid {
-		width: 100%;
-		height: 440px;}
+
 	
 </style>
 
@@ -415,9 +413,22 @@
 		};
 
 		gridView.onCellEdited = function (grid, itemIndex, dataRow, field) {
-			// Save updated data
 			var rowData = dataProvider.getJsonRow(dataRow);
 			console.log("Updated Row Data: ", rowData);
+			$.ajax({
+				url: '/api/movie',
+				method: 'PUT',
+				contentType: 'application/json',
+				data: JSON.stringify(rowData),
+				success: function (responseData) {
+					console.log('New movie updated:', responseData);
+					// Optionally handle success response
+				},
+				error: function (jqXHR, textStatus, errorThrown) {
+					console.error('Error updating movie:', errorThrown);
+					// Optionally handle error
+				}
+			});
 		};
 
 		dataProvider.setRows(dataSource);
@@ -444,6 +455,37 @@
 		}
 	}
 
+	function addRow(){
+		var selected = gridView.getCurrent();
+		
+		if (selected.dataRow !== -1) {
+			var rowData = dataProvider.getJsonRow(selected.dataRow);
+
+			console.log(rowData);
+
+			let val = dataProvider.getValue(rowData, "Title");
+
+			console.log(val);
+			$.ajax({
+				url: '/api/movie',
+				method: 'POST',
+				contentType: 'application/json',
+				data: JSON.stringify(rowData),
+				success: function (responseData) {
+					console.log('New movie created:', responseData);
+					// Optionally handle success response
+				},
+				error: function (jqXHR, textStatus, errorThrown) {
+					console.error('Error creating movie:', errorThrown);
+					// Optionally handle error
+				}
+			});
+
+
+		};
+		
+	}
+
 	function start() {
 		createGrid("realgrid");
 	}
@@ -464,8 +506,9 @@
 
 
 	function addEmptyRow() {
-		gridView.beginAppendRow();
-		gridView.showEditor();
+		var dataRow = dataProvider.addRow({});
+		gridView.setCurrent({ dataRow: dataRow });
+
 	}
 
 	
@@ -560,13 +603,11 @@
 
 				<button  class="grid-btn" onclick="deleteRow()">Delete Row</button>
 				
-				<button class="grid-btn" onclick="saveChange()">Save</button>
+				<button class="grid-btn" onclick="addRow()">Save</button>
 
 				<button class="grid-btn" onclick="saveChange()">Cancel</button>
 			</div>
 		</div>
-		
-
 		
 	</div>
 	

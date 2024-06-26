@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using ToyProj.Models;
-using ToyProj.Services.Movie.Models;
-using ToyProj.Services.Movie.Repository;
+using ToyProj.Services.Movies.Models;
+using ToyProj.Services.Movies.Repository;
 using ToyProj.Services.MovieCast.Models;
 using ToyProj.Services.MovieCast.Repository;
 
@@ -60,13 +60,13 @@ namespace ToyProj.Controllers
                     KeywordId = x.ListKeywordId.Split(',').Select(x => int.Parse(x)).ToList(),
                     MovieCastModels = movieCastList.Where(a => a.MovieId == x.MovieId).Select(x => new MovieCastModel() {
                         
-                    }).ToList()
+                    }).DistinctBy(x => x.MovieId).ToList()
                 }
             );
 
             var viewModel = new MovieAdminViewModel()
             {
-                ListMovie = adminDateItem.ToList()
+                ListMovie = adminDateItem.DistinctBy(x => x.MovieId ).ToList()
                 
             };
 
