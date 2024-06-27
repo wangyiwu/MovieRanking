@@ -310,6 +310,32 @@ namespace ToyProj.Services.Movies.Repository
 			}
 			return false;
 		}
+
+		public async Task<List<TotalRevenueData>> GetTotalRevenue()
+		{
+			var queryBase = $@"SELECT 
+						pc.CompanyId,
+						pc.CompanyName,
+						YEAR(ReleaseDate) AS Year,
+						MONTH(ReleaseDate) AS Month,
+						 SUM(CAST(Revenue AS BIGINT)) AS TotalRevenue
+					FROM 
+						Movie m
+					join MovieCompany mc on m.MovieId = mc.MovieId
+					join ProductionCompany pc on pc.CompanyId = mc.CompanyId
+
+					GROUP BY 
+						pc.CompanyName,pc.CompanyId, YEAR(ReleaseDate), MONTH(ReleaseDate)
+					ORDER BY 
+						YEAR(ReleaseDate), MONTH(ReleaseDate);
+					";
+
+			var result = await db.Database.SqlQueryRaw<TotalRevenueData>(queryBase).ToListAsync();
+
+			return result;
+		}
+
+
 	}
 
 }

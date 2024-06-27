@@ -466,6 +466,7 @@
 			let val = dataProvider.getValue(rowData, "Title");
 
 			console.log(val);
+
 			$.ajax({
 				url: '/api/movie',
 				method: 'POST',
@@ -510,8 +511,6 @@
 		gridView.setCurrent({ dataRow: dataRow });
 
 	}
-
-	
 
 	function gridSearch() {
 		var value = document.getElementById('txtSearch').value;

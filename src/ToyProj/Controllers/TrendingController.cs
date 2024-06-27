@@ -22,6 +22,14 @@ namespace ToyProj.Controllers
 
             var moviePercentageData = await companyRepository.GetMovieCompanyPercentages();
 
+            var revenueData = await movieRepository.GetTotalRevenue();
+
+            var columChart = revenueData.GroupBy(x => x.CompanyName).Select(y => new ColumChartViewModel()
+            {
+                Name = y.Key,
+                Data = y.Select(x => x.TotalRevenue).ToArray(),
+            }).ToList();
+
             var pieChartViewModel = new PieChartViewModel()
             {
                 Name = "Number of films released by each company",
@@ -33,6 +41,7 @@ namespace ToyProj.Controllers
             };
 
             trending.PieChartViewModel = pieChartViewModel;
+            trending.ColumsChartViewModel = columChart;
 
             return View(trending);
         }

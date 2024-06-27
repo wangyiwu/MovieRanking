@@ -21,6 +21,8 @@ namespace ToyProj.Services.Movies.Repository
 		public Task<bool> CreateAsync(CreateMovieRequestModel movie);
 		public Task<bool> UpdateAsync(UpdateMovieRequestModel movie);
 
+		public Task<List<TotalRevenueData>> GetTotalRevenue();
+
 
 	}
 }
