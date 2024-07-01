@@ -582,6 +582,10 @@
 
 		$('#addMovieForm').on('submit', function (event) {
 			event.preventDefault();
+
+			var movieId = $('#movieId').val();
+			console.log(movieId);
+
 			var formData = {
 				Title: $('#title').val(),
 				Budget: $('#budget').val(),
@@ -600,21 +604,29 @@
 				CompanyId: $('#companyId').val(),
 				LanguagueId: $('#languagueId').val(),
 				GenreId: $('#genreId').val(),
+				MovieId: movieId
 			};
 
-			$.ajax({
-				url: '/api/movie', // Adjust the URL to your API endpoint
-				type: 'POST',
-				contentType: 'application/json',
-				data: JSON.stringify(formData),
-				success: function (response) {
-					alert('Movie added successfully!');
-					// Optionally, you can redirect or reset the form here
-				},
-				error: function (error) {
-					alert('Failed to add movie. Please try again.');
-				}
-			});
+			if (movieId == null || movieId == undefined) {
+				$.ajax({
+					url: '/api/movie', // Adjust the URL to your API endpoint
+					type: 'POST',
+					contentType: 'application/json',
+					data: JSON.stringify(formData),
+					success: function (response) {
+						alert('Movie added successfully!');
+						// Optionally, you can redirect or reset the form here
+					},
+					error: function (error) {
+						alert('Failed to add movie. Please try again.');
+					}
+				});
+			}
+			else{
+				//update
+				console.log("updated");
+			}
+
 		});
 
 	});
@@ -699,6 +711,10 @@
 				<div class="modal-body">
 					<div class="container mt-5">
 						<form id="addMovieForm">
+							<div class="mb-3" style="display:none">
+								<label for="title" class="form-label">MovieId</label>
+								<input type="text" class="form-control" id="movieId" name="MovieId" required>
+							</div>
 							<div class="mb-3">
 								<label for="title" class="form-label">Title</label>
 								<input type="text" class="form-control" id="title" name="title" required>
