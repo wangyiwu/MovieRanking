@@ -438,6 +438,8 @@
 			$('#languagueId').val(rowData.LanguagueId);
 			$('#genreId').val(rowData.GenreId);
 			$('#movieId').val(rowData.MovieId);
+			$('#countryId').val(rowData.CountryId);
+
 
 			myModal.show();
 
@@ -702,14 +704,14 @@
 
 	<!-- Modal -->
 	<div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-		<div class="modal-dialog">
+		<div class="modal-dialog modal-dialog-centered">
 			<div class="modal-content">
 				<div class="modal-header">
 					<h5 class="modal-title" id="staticBackdropLabel">Add new a movie</h5>
 					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 				</div>
 				<div class="modal-body">
-					<div class="container mt-5">
+					<div class="container mt-2">
 						<form id="addMovieForm">
 							<div class="mb-3" style="display:none">
 								<label for="title" class="form-label">MovieId</label>

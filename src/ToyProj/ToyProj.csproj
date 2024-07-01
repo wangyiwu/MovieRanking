@@ -7,6 +7,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Content Remove="Views\Shared\_ColumnInteractive.cshtml" />
+  </ItemGroup>
+
+  <ItemGroup>
     <_ContentIncludedByDefault Remove="wwwroot\data\simple_data.json" />
   </ItemGroup>
 
@@ -24,6 +28,10 @@
 
   <ItemGroup>
     <PackageReference Include="AutoMapper" Version="13.0.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="Views\Shared\_ColumnInteractive.cshtml" />
   </ItemGroup>
 
 </Project>
