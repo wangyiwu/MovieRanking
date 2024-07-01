@@ -414,25 +414,39 @@
 		
 
 		gridView.onCellEdited = function (grid, itemIndex, dataRow, field) {
+
+			var myModal = new bootstrap.Modal(document.getElementById("staticBackdrop"), {});
+
 			var rowData = dataProvider.getJsonRow(dataRow);
-			console.log("Updated Row Data: ", rowData);
-			$.ajax({
-				url: '/api/movie',
-				method: 'PUT',
-				contentType: 'application/json',
-				data: JSON.stringify(rowData),
-				success: function (responseData) {
-					console.log('New movie updated:', responseData);
-					// Optionally handle success response
-				},
-				error: function (jqXHR, textStatus, errorThrown) {
-					console.error('Error updating movie:', errorThrown);
-					// Optionally handle error
-				}
-			});
+
+			console.log(rowData);
+			
+			$('#title').val(rowData.Title);
+			$('#budget').val(rowData.Budget);
+			$('#homepage').val(rowData.Homepage);
+			$('#overview').val(rowData.Overview);
+			$('#popularity').val(rowData.Popularity);
+			$('#releaseDate').val(rowData.ReleaseDate);
+			$('#revenue').val(rowData.Revenue);
+			$('#runtime').val(rowData.Runtime);
+			$('#movieStatus').val(rowData.MovieStatus);
+			$('#tagline').val(rowData.Tagline);
+			$('#votesAvg').val(rowData.VotesAvg);
+			$('#votesCount').val(rowData.VotesCount);
+			$('#thumbnail').val(rowData.Thumbnail);
+			$('#companyId').val(rowData.CompanyId);
+			$('#languagueId').val(rowData.LanguagueId);
+			$('#genreId').val(rowData.GenreId);
+			$('#movieId').val(rowData.MovieId);
+
+			myModal.show();
+
+			
 		};
 
 		dataProvider.setRows(dataSource);
+
+
 	}
 
 	function deleteRow() {
@@ -544,6 +558,67 @@
 		location.reload();
 	}
 
+
+
+	function generateOptions(elementId, names, values) {
+		var companySelect = $(elementId);
+
+		values.forEach(function (company, index) {
+			companySelect.append(new Option(names[index], company));
+		});
+
+	}
+
+	/////////////// handle modal
+	$(document).ready(function () {
+		generateOptions('#countryId', listCountry, listCountryId);
+
+		generateOptions('#languagueId', listLanguague, listLanguagueId);
+
+		generateOptions('#companyId', listCompany, listCompanyId);
+
+		generateOptions('#genreId', listGenre, listGenreId);
+
+
+		$('#addMovieForm').on('submit', function (event) {
+			event.preventDefault();
+			var formData = {
+				Title: $('#title').val(),
+				Budget: $('#budget').val(),
+				Homepage: $('#homepage').val(),
+				Overview: $('#overview').val(),
+				Popularity: $('#popularity').val(),
+				ReleaseDate: $('#releaseDate').val(),
+				Revenue: $('#revenue').val(),
+				Runtime: $('#runtime').val(),
+				MovieStatus: $('#movieStatus').val(),
+				Tagline: $('#tagline').val(),
+				VotesAvg: $('#votesAvg').val(),
+				VotesCount: $('#votesCount').val(),
+				Thumbnail: $('#thumbnail').val(),
+				KeywordId: "1",
+				CompanyId: $('#companyId').val(),
+				LanguagueId: $('#languagueId').val(),
+				GenreId: $('#genreId').val(),
+			};
+
+			$.ajax({
+				url: '/api/movie', // Adjust the URL to your API endpoint
+				type: 'POST',
+				contentType: 'application/json',
+				data: JSON.stringify(formData),
+				success: function (response) {
+					alert('Movie added successfully!');
+					// Optionally, you can redirect or reset the form here
+				},
+				error: function (error) {
+					alert('Failed to add movie. Please try again.');
+				}
+			});
+		});
+
+	});
+
 </script>
 
 <div class="datagrid-container">
@@ -606,10 +681,7 @@
 				<button class="grid-btn" data-bs-toggle="modal" data-bs-target="#staticBackdrop">Add new movie</button>
 
 				<button  class="grid-btn" onclick="deleteRow()">Delete Row</button>
-				
-				<button class="grid-btn" onclick="addRow()">Save</button>
 
-				<button class="grid-btn" onclick="saveChange()">Cancel</button>
 			</div>
 		</div>
 		
@@ -708,9 +780,7 @@
 								</select>
 							</div>
 
-
-
-							<button type="submit" class="btn btn-primary">Add Movie</button>
+							<button type="submit" class="btn btn-primary">Add or Update</button>
 						</form>
 					</div>
 				</div>
@@ -729,84 +799,3 @@
 
 </div>
 
-<script>
-
-
-	function generateOptions(elementId, names, values) {
-		var companySelect = $(elementId);
-
-		values.forEach(function (company, index) {
-			companySelect.append(new Option(names[index], company));
-		});
-
-	}
-
-	$(document).ready(function () {
-		
-		const listCountry = @Html.Raw(JsonSerializer.Serialize(listCountryName));
-		const listCountryId = @Html.Raw(JsonSerializer.Serialize(listCountryId));
-
-		generateOptions('#countryId', listCountry, listCountryId);
-
-		const listLanguague = @Html.Raw(JsonSerializer.Serialize(listLanguague));
-		const listLanguagueId = @Html.Raw(JsonSerializer.Serialize(listCountryId));
-
-		generateOptions('#languagueId', listLanguague, listLanguagueId);
-
-		const listCompany = @Html.Raw(JsonSerializer.Serialize(listCompany));
-		const listCompanyId = @Html.Raw(JsonSerializer.Serialize(listCompanyId));
-
-		generateOptions('#companyId', listCompany, listCompanyId);
-
-		const listDepartment = @Html.Raw(JsonSerializer.Serialize(listDepartment));
-		const listDepartmentId = @Html.Raw(JsonSerializer.Serialize(listDepartmentId));
-
-		const listGenre = @Html.Raw(JsonSerializer.Serialize(listGenre));
-		const listGenreId = @Html.Raw(JsonSerializer.Serialize(listGenderId));
-
-		generateOptions('#genreId', listGenre, listGenreId);
-
-
-		const listKeyword = @Html.Raw(JsonSerializer.Serialize(listKeyword));
-		const listKeywordId = @Html.Raw(JsonSerializer.Serialize(listKeywordId));
-
-
-
-		$('#addMovieForm').on('submit', function (event) {
-			event.preventDefault();
-			var formData = {
-				Title: $('#title').val(),
-				Budget: $('#budget').val(),
-				Homepage: $('#homepage').val(),
-				Overview: $('#overview').val(),
-				Popularity: $('#popularity').val(),
-				ReleaseDate: $('#releaseDate').val(),
-				Revenue: $('#revenue').val(),
-				Runtime: $('#runtime').val(),
-				MovieStatus: $('#movieStatus').val(),
-				Tagline: $('#tagline').val(),
-				VotesAvg: $('#votesAvg').val(),
-				VotesCount: $('#votesCount').val(),
-				Thumbnail: $('#thumbnail').val(),
-				KeywordId: "1",
-				CompanyId: $('#companyId').val(),
-				LanguagueId: $('#languagueId').val(),
-				GenreId: $('#genreId').val(),
-			};
-
-			$.ajax({
-				url: '/api/movie', // Adjust the URL to your API endpoint
-				type: 'POST',
-				contentType: 'application/json',
-				data: JSON.stringify(formData),
-				success: function (response) {
-					alert('Movie added successfully!');
-					// Optionally, you can redirect or reset the form here
-				},
-				error: function (error) {
-					alert('Failed to add movie. Please try again.');
-				}
-			});
-		});
-	});
-</script>

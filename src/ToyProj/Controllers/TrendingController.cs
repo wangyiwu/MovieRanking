@@ -45,7 +45,6 @@ namespace ToyProj.Controllers
 				}
 
                 columChart.Add(chartItem);
-
 			}
 
 			var pieChartViewModel = new PieChartViewModel()
