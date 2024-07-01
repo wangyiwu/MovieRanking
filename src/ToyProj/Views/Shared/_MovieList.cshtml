@@ -71,7 +71,6 @@
 
 	var dataSource = @Html.Raw(JsonSerializer.Serialize(Model.ToArray()));
 
-	console.log(dataSource);
 
 	var realGrid2Lic = 'upVcPE+wPOmtLjqyBIh9RkM/nBOseBrflwxYpzGZyYm9cY8amGDkiHqyYT2U1Yh3Dufv8SUhNy6uxbhPga83Fw==';
 
@@ -412,6 +411,8 @@
 			console.log("3. onRowCountChanged이벤트 count = " + count);
 		};
 
+		
+
 		gridView.onCellEdited = function (grid, itemIndex, dataRow, field) {
 			var rowData = dataProvider.getJsonRow(dataRow);
 			console.log("Updated Row Data: ", rowData);
@@ -539,6 +540,10 @@
 
 	}
 
+	function closeModel(){
+		location.reload();
+	}
+
 </script>
 
 <div class="datagrid-container">
@@ -598,7 +603,7 @@
 		<div class="grid-function">
 			<div class="toolbar-group">
 				
-				<button class="grid-btn" onclick="addEmptyRow()">Add new movie</button>
+				<button class="grid-btn" data-bs-toggle="modal" data-bs-target="#staticBackdrop">Add new movie</button>
 
 				<button  class="grid-btn" onclick="deleteRow()">Delete Row</button>
 				
@@ -609,6 +614,199 @@
 		</div>
 		
 	</div>
+
+
+	<!-- Modal -->
+	<div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="staticBackdropLabel">Add new a movie</h5>
+					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+				</div>
+				<div class="modal-body">
+					<div class="container mt-5">
+						<form id="addMovieForm">
+							<div class="mb-3">
+								<label for="title" class="form-label">Title</label>
+								<input type="text" class="form-control" id="title" name="title" required>
+							</div>
+							<div class="mb-3">
+								<label for="budget" class="form-label">Budget</label>
+								<input type="number" class="form-control" id="budget" name="budget" required>
+							</div>
+							<div class="mb-3">
+								<label for="homepage" class="form-label">Homepage</label>
+								<input type="url" class="form-control" id="homepage" name="homepage">
+							</div>
+							<div class="mb-3">
+								<label for="overview" class="form-label">Overview</label>
+								<textarea class="form-control" id="overview" name="overview" rows="3"></textarea>
+							</div>
+							<div class="mb-3">
+								<label for="popularity" class="form-label">Popularity</label>
+								<input type="number" step="0.01" class="form-control" id="popularity" name="popularity">
+							</div>
+							<div class="mb-3">
+								<label for="releaseDate" class="form-label">Release Date</label>
+								<input type="date" class="form-control" id="releaseDate" name="releaseDate" required>
+							</div>
+							<div class="mb-3">
+								<label for="revenue" class="form-label">Revenue</label>
+								<input type="number" class="form-control" id="revenue" name="revenue">
+							</div>
+							<div class="mb-3">
+								<label for="runtime" class="form-label">Runtime</label>
+								<input type="number" class="form-control" id="runtime" name="runtime">
+							</div>
+							<div class="mb-3">
+								<label for="movieStatus" class="form-label">Movie Status</label>
+								<input type="text" class="form-control" id="movieStatus" name="movieStatus">
+							</div>
+							<div class="mb-3">
+								<label for="tagline" class="form-label">Tagline</label>
+								<input type="text" class="form-control" id="tagline" name="tagline">
+							</div>
+							<div class="mb-3">
+								<label for="votesAvg" class="form-label">Votes Average</label>
+								<input type="number" step="0.1" class="form-control" id="votesAvg" name="votesAvg">
+							</div>
+							<div class="mb-3">
+								<label for="votesCount" class="form-label">Votes Count</label>
+								<input type="number" class="form-control" id="votesCount" name="votesCount">
+							</div>
+							<div class="mb-3">
+								<label for="thumbnail" class="form-label">Thumbnail</label>
+								<input type="url" class="form-control" id="thumbnail" name="thumbnail">
+							</div>
+
+							<div class="mb-3">
+								<label for="companyId" class="form-label">Company</label>
+								<select class="form-select" id="companyId" name="companyId" required>
+									<option value="">Select Company</option>
+								</select>
+							</div>
+
+							<div class="mb-3">
+								<label for="countryId" class="form-label">Country</label>
+								<select class="form-select" id="countryId" name="countryId" required>
+									<option value="">Select Country</option>
+								</select>
+							</div>
+
+							<div class="mb-3">
+								<label for="languagueId" class="form-label">Languague</label>
+								<select class="form-select" id="languagueId" name="languagueId" required>
+									<option value="">Select Languague</option>
+								</select>
+							</div>
+
+							<div class="mb-3">
+								<label for="genreId" class="form-label">Genre</label>
+								<select class="form-select" id="genreId" name="genreId" required>
+									<option value="">Select Genre</option>
+								</select>
+							</div>
+
+
+
+							<button type="submit" class="btn btn-primary">Add Movie</button>
+						</form>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button type="button" onclick="closeModel()"  class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+				</div>
+			</div>
+		</div>
+	</div>
 	
-	<div class="datagrid-table" id="realgrid"></div>
+	<div class="datagrid-table" id="realgrid">
+
+
+	</div>
+
+
 </div>
+
+<script>
+
+
+	function generateOptions(elementId, names, values) {
+		var companySelect = $(elementId);
+
+		values.forEach(function (company, index) {
+			companySelect.append(new Option(names[index], company));
+		});
+
+	}
+
+	$(document).ready(function () {
+		
+		const listCountry = @Html.Raw(JsonSerializer.Serialize(listCountryName));
+		const listCountryId = @Html.Raw(JsonSerializer.Serialize(listCountryId));
+
+		generateOptions('#countryId', listCountry, listCountryId);
+
+		const listLanguague = @Html.Raw(JsonSerializer.Serialize(listLanguague));
+		const listLanguagueId = @Html.Raw(JsonSerializer.Serialize(listCountryId));
+
+		generateOptions('#languagueId', listLanguague, listLanguagueId);
+
+		const listCompany = @Html.Raw(JsonSerializer.Serialize(listCompany));
+		const listCompanyId = @Html.Raw(JsonSerializer.Serialize(listCompanyId));
+
+		generateOptions('#companyId', listCompany, listCompanyId);
+
+		const listDepartment = @Html.Raw(JsonSerializer.Serialize(listDepartment));
+		const listDepartmentId = @Html.Raw(JsonSerializer.Serialize(listDepartmentId));
+
+		const listGenre = @Html.Raw(JsonSerializer.Serialize(listGenre));
+		const listGenreId = @Html.Raw(JsonSerializer.Serialize(listGenderId));
+
+		generateOptions('#genreId', listGenre, listGenreId);
+
+
+		const listKeyword = @Html.Raw(JsonSerializer.Serialize(listKeyword));
+		const listKeywordId = @Html.Raw(JsonSerializer.Serialize(listKeywordId));
+
+
+
+		$('#addMovieForm').on('submit', function (event) {
+			event.preventDefault();
+			var formData = {
+				Title: $('#title').val(),
+				Budget: $('#budget').val(),
+				Homepage: $('#homepage').val(),
+				Overview: $('#overview').val(),
+				Popularity: $('#popularity').val(),
+				ReleaseDate: $('#releaseDate').val(),
+				Revenue: $('#revenue').val(),
+				Runtime: $('#runtime').val(),
+				MovieStatus: $('#movieStatus').val(),
+				Tagline: $('#tagline').val(),
+				VotesAvg: $('#votesAvg').val(),
+				VotesCount: $('#votesCount').val(),
+				Thumbnail: $('#thumbnail').val(),
+				KeywordId: "1",
+				CompanyId: $('#companyId').val(),
+				LanguagueId: $('#languagueId').val(),
+				GenreId: $('#genreId').val(),
+			};
+
+			$.ajax({
+				url: '/api/movie', // Adjust the URL to your API endpoint
+				type: 'POST',
+				contentType: 'application/json',
+				data: JSON.stringify(formData),
+				success: function (response) {
+					alert('Movie added successfully!');
+					// Optionally, you can redirect or reset the form here
+				},
+				error: function (error) {
+					alert('Failed to add movie. Please try again.');
+				}
+			});
+		});
+	});
+</script>

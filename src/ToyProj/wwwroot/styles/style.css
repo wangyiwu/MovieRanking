@@ -56,6 +56,7 @@ table {
 .pageContainer {
     display: flex;
     flex-direction: row;
+    min-height:125vh;
 }
 
 
