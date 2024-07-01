@@ -42,7 +42,7 @@ namespace ToyProj.Controllers
         }
 
 		public static IEnumerable<TSource> DistinctBy<TSource, TKey>
-	(IEnumerable<TSource> source, Func<TSource, TKey> keySelector)
+			(IEnumerable<TSource> source, Func<TSource, TKey> keySelector)
 		{
 			HashSet<TKey> seenKeys = new HashSet<TKey>();
 			foreach (TSource element in source)

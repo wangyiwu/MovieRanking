@@ -24,13 +24,31 @@ namespace ToyProj.Controllers
 
             var revenueData = await movieRepository.GetTotalRevenue();
 
-            var columChart = revenueData.GroupBy(x => x.CompanyName).Select(y => new ColumChartViewModel()
+            var columChartGrouped = revenueData.GroupBy(x => new
             {
-                Name = y.Key,
-                Data = y.Select(x => x.TotalRevenue).ToArray(),
-            }).ToList();
+                x.CompanyName,
+                x.Year,
+            });
 
-            var pieChartViewModel = new PieChartViewModel()
+            var columChart = new List<ColumChartViewModel>();
+
+            foreach (var item in columChartGrouped)
+            {
+                var chartItem = new ColumChartViewModel();
+                chartItem.Data = new long[12] {0,0,0,0,0,0,0,0,0,0,0,0};
+                chartItem.Name = $@"{item.Key.CompanyName} {item.Key.Year}";
+
+                foreach(var i in item)
+                {
+                    int indexOfData = i.Month;
+                    chartItem.Data[indexOfData-1] = i.TotalRevenue;
+				}
+
+                columChart.Add(chartItem);
+
+			}
+
+			var pieChartViewModel = new PieChartViewModel()
             {
                 Name = "Number of films released by each company",
                 Series = moviePercentageData.Select(x => new PieChartData()

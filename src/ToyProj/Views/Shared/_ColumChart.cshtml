@@ -18,6 +18,8 @@
 
 	var listData = @Html.Raw(JsonSerializer.Serialize(Model));
 
+	console.log(listData);
+
 	Highcharts.chart('colum-chart-container', {
 		chart: {
 			type: 'line',
