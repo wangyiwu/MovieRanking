@@ -476,13 +476,8 @@
 		var selected = gridView.getCurrent();
 		
 		if (selected.dataRow !== -1) {
+
 			var rowData = dataProvider.getJsonRow(selected.dataRow);
-
-			console.log(rowData);
-
-			let val = dataProvider.getValue(rowData, "Title");
-
-			console.log(val);
 
 			$.ajax({
 				url: '/api/movie',
@@ -502,6 +497,27 @@
 
 		};
 		
+	}
+
+	function makeModalEmpty(){
+		$('#title').val('');
+		$('#budget').val(0);
+		$('#homepage').val('');
+		$('#overview').val('');
+		$('#popularity').val(0);
+		$('#releaseDate').val('');
+		$('#revenue').val(0);
+		$('#runtime').val(0);
+		$('#movieStatus').val('');
+		$('#tagline').val('');
+		$('#votesAvg').val(0);
+		$('#votesCount').val(0);
+		$('#thumbnail').val('');
+		$('#companyId').val(1);
+		$('#languagueId').val(1);
+		$('#genreId').val(1);
+		$('#movieId').val('');
+		$('#countryId').val(1);
 	}
 
 	function start() {
@@ -588,28 +604,30 @@
 			var movieId = $('#movieId').val();
 			console.log(movieId);
 
-			var formData = {
-				Title: $('#title').val(),
-				Budget: $('#budget').val(),
-				Homepage: $('#homepage').val(),
-				Overview: $('#overview').val(),
-				Popularity: $('#popularity').val(),
-				ReleaseDate: $('#releaseDate').val(),
-				Revenue: $('#revenue').val(),
-				Runtime: $('#runtime').val(),
-				MovieStatus: $('#movieStatus').val(),
-				Tagline: $('#tagline').val(),
-				VotesAvg: $('#votesAvg').val(),
-				VotesCount: $('#votesCount').val(),
-				Thumbnail: $('#thumbnail').val(),
-				KeywordId: "1",
-				CompanyId: $('#companyId').val(),
-				LanguagueId: $('#languagueId').val(),
-				GenreId: $('#genreId').val(),
-				MovieId: movieId
-			};
+			
 
-			if (movieId == null || movieId == undefined) {
+			if (movieId === '') {
+
+				var formData = {
+					Title: $('#title').val(),
+					Budget: $('#budget').val(),
+					Homepage: $('#homepage').val(),
+					Overview: $('#overview').val(),
+					Popularity: $('#popularity').val(),
+					ReleaseDate: $('#releaseDate').val(),
+					Revenue: $('#revenue').val(),
+					Runtime: $('#runtime').val(),
+					MovieStatus: $('#movieStatus').val(),
+					Tagline: $('#tagline').val(),
+					VotesAvg: $('#votesAvg').val(),
+					VotesCount: $('#votesCount').val(),
+					Thumbnail: $('#thumbnail').val(),
+					KeywordId: "1",
+					CompanyId: $('#companyId').val(),
+					LanguagueId: $('#languagueId').val(),
+					GenreId: $('#genreId').val()
+				};
+
 				$.ajax({
 					url: '/api/movie', // Adjust the URL to your API endpoint
 					type: 'POST',
@@ -625,8 +643,40 @@
 				});
 			}
 			else{
-				//update
-				console.log("updated");
+				var formData = {
+					Title: $('#title').val(),
+					Budget: $('#budget').val(),
+					Homepage: $('#homepage').val(),
+					Overview: $('#overview').val(),
+					Popularity: $('#popularity').val(),
+					ReleaseDate: $('#releaseDate').val(),
+					Revenue: $('#revenue').val(),
+					Runtime: $('#runtime').val(),
+					MovieStatus: $('#movieStatus').val(),
+					Tagline: $('#tagline').val(),
+					VotesAvg: $('#votesAvg').val(),
+					VotesCount: $('#votesCount').val(),
+					Thumbnail: $('#thumbnail').val(),
+					KeywordId: "1",
+					CompanyId: $('#companyId').val(),
+					LanguagueId: $('#languagueId').val(),
+					GenreId: $('#genreId').val(),
+					MovieId: movieId
+				};
+
+				$.ajax({
+					url: '/api/movie', // Adjust the URL to your API endpoint
+					type: 'PUT',
+					contentType: 'application/json',
+					data: JSON.stringify(formData),
+					success: function (response) {
+						alert('Movie updated successfully!');
+						// Optionally, you can redirect or reset the form here
+					},
+					error: function (error) {
+						alert('Failed to add movie. Please try again.');
+					}
+				});
 			}
 
 		});
@@ -692,7 +742,7 @@
 		<div class="grid-function">
 			<div class="toolbar-group">
 				
-				<button class="grid-btn" data-bs-toggle="modal" data-bs-target="#staticBackdrop">Add new movie</button>
+				<button onclick="makeModalEmpty()" class="grid-btn" data-bs-toggle="modal" data-bs-target="#staticBackdrop">Add new movie</button>
 
 				<button  class="grid-btn" onclick="deleteRow()">Delete Row</button>
 
@@ -715,7 +765,7 @@
 						<form id="addMovieForm">
 							<div class="mb-3" style="display:none">
 								<label for="title" class="form-label">MovieId</label>
-								<input type="text" class="form-control" id="movieId" name="MovieId" required>
+								<input type="text" class="form-control" id="movieId" name="MovieId">
 							</div>
 							<div class="mb-3">
 								<label for="title" class="form-label">Title</label>
